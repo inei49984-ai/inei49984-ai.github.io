@@ -93,16 +93,19 @@
         .bar-mid { width: 20px; }
         .bar-bot { width: 25px; }
 
-        .header-menu-trigger:hover {
-            transform: scale(1.15);
-        }
-        .header-menu-trigger:hover::before {
-            transform: scale(1);
-            opacity: 1;
-        }
-        .header-menu-trigger:hover .menu-bar {
-            background-color: #00d2ff;
-            width: 32px;
+        /* PCでのホバー時のみ拡大 */
+        @media (hover: hover) {
+            .header-menu-trigger:hover {
+                transform: scale(1.15);
+            }
+            .header-menu-trigger:hover::before {
+                transform: scale(1);
+                opacity: 1;
+            }
+            .header-menu-trigger:hover .menu-bar {
+                background-color: #00d2ff;
+                width: 32px;
+            }
         }
         .header-menu-trigger:active { transform: scale(0.92); }
 
@@ -167,7 +170,9 @@
             transition: color 0.2s, transform 0.2s;
         }
 
-        .ui-close-btn:hover { color: #ffffff; transform: scale(1.2); }
+        @media (hover: hover) {
+            .ui-close-btn:hover { color: #ffffff; transform: scale(1.2); }
+        }
 
         /* ====================================================
            DEVELOPER SNS UI
@@ -193,6 +198,7 @@
             gap: 12px;
         }
 
+        /* Discord / Github アイコンのカード（大きく手前に出て浮き上がる効果） */
         .sns-card {
             display: flex;
             align-items: center;
@@ -202,8 +208,10 @@
             border: 1px solid rgba(0, 210, 255, 0.15);
             border-radius: 16px;
             text-decoration: none;
-            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
             touch-action: manipulation;
+            position: relative;
+            z-index: 1;
         }
 
         .sns-icon {
@@ -219,7 +227,7 @@
             width: 100%;
             height: 100%;
             fill: #00d2ff;
-            transition: transform 0.25s ease;
+            transition: transform 0.3s ease;
         }
 
         .sns-name {
@@ -229,18 +237,22 @@
             letter-spacing: 0.5px;
         }
 
-        .sns-card:hover {
-            transform: translateY(-3px) scale(1.02);
-            background: rgba(0, 210, 255, 0.1);
-            border-color: rgba(0, 210, 255, 0.6);
-            box-shadow: 0 5px 20px rgba(0, 210, 255, 0.2);
+        /* 手前に大きく迫り出すホバーアニメーション（PCのみ） */
+        @media (hover: hover) {
+            .sns-card:hover {
+                z-index: 10;
+                transform: translateY(-8px) scale(1.06);
+                background: rgba(0, 210, 255, 0.15);
+                border-color: rgba(0, 210, 255, 0.8);
+                box-shadow: 0 15px 35px rgba(0, 210, 255, 0.35);
+            }
+
+            .sns-card:hover .sns-icon svg {
+                transform: scale(1.2) rotate(6deg);
+            }
         }
 
-        .sns-card:hover .sns-icon svg {
-            transform: scale(1.15) rotate(5deg);
-        }
-
-        .sns-card:active { transform: scale(0.97); }
+        .sns-card:active { transform: scale(0.98); }
 
         /* ====================================================
            RAW CODE MODAL STYLES
@@ -274,7 +286,6 @@
             color: #38bdf8;
             line-height: 1.5;
             outline: none;
-            /* テキスト読み取り専用の設定 */
             user-select: text;
             -webkit-user-select: text;
         }
@@ -296,10 +307,12 @@
             transition: all 0.2s ease;
         }
 
-        .btn-copy:hover {
-            background: rgba(0, 210, 255, 0.25);
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+        @media (hover: hover) {
+            .btn-copy:hover {
+                background: rgba(0, 210, 255, 0.25);
+                transform: scale(1.05);
+                box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+            }
         }
 
         .btn-copy:active { transform: scale(0.95); }
@@ -342,13 +355,15 @@
             transition: text-shadow 0.4s ease;
         }
 
-        .brand-huge:hover {
-            transform: scale(1.08);
-            text-shadow: 0 0 100px rgba(0, 210, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.6);
-        }
+        @media (hover: hover) {
+            .brand-huge:hover {
+                transform: scale(1.08);
+                text-shadow: 0 0 100px rgba(0, 210, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.6);
+            }
 
-        .brand-huge:hover span {
-            text-shadow: 0 0 50px rgba(0, 210, 255, 1);
+            .brand-huge:hover span {
+                text-shadow: 0 0 50px rgba(0, 210, 255, 1);
+            }
         }
 
         .scroll-indicator {
@@ -391,24 +406,32 @@
             max-width: 900px;
         }
 
+        /* ダウンロードやRAW表示を囲んでいるカード枠（大きく手前に出て浮き上がる効果） */
         .file-card {
-            background: rgba(0, 210, 255, 0.02);
+            background: rgba(0, 210, 255, 0.03);
             border: 1px solid rgba(0, 210, 255, 0.25);
             border-radius: 20px;
-            padding: 24px 30px;
+            padding: 26px 32px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 16px;
-            min-width: 230px;
+            min-width: 240px;
             box-shadow: 0 0 15px rgba(0, 210, 255, 0.06);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.35s ease, border-color 0.35s ease, background-color 0.35s ease;
+            position: relative;
+            z-index: 1;
         }
 
-        .file-card:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.2);
-            border-color: rgba(0, 210, 255, 0.6);
+        /* 手前に大きく迫り出すホバーアニメーション（PCのみ） */
+        @media (hover: hover) {
+            .file-card:hover {
+                z-index: 10;
+                transform: translateY(-12px) scale(1.07);
+                box-shadow: 0 20px 45px rgba(0, 210, 255, 0.35);
+                border-color: rgba(0, 210, 255, 0.85);
+                background: rgba(0, 210, 255, 0.08);
+            }
         }
 
         .file-card-title { font-size: 15px; font-weight: 700; color: #ffffff; }
@@ -416,7 +439,6 @@
 
         .file-card-actions { display: flex; gap: 12px; }
 
-        /* Robloxリンクの長押し・コンテキストメニュー無効化 */
         .game-link {
             display: inline-flex;
             align-items: center;
@@ -439,16 +461,18 @@
             pointer-events: none;
         }
 
-        .game-link:hover {
-            transform: scale(1.08);
-            background: rgba(0, 210, 255, 0.15);
-            border-color: rgba(0, 210, 255, 0.8);
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
-            color: #ffffff;
-        }
+        @media (hover: hover) {
+            .game-link:hover {
+                transform: scale(1.08);
+                background: rgba(0, 210, 255, 0.15);
+                border-color: rgba(0, 210, 255, 0.8);
+                box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+                color: #ffffff;
+            }
 
-        .game-link:hover svg {
-            transform: rotate(15deg) scale(1.2);
+            .game-link:hover svg {
+                transform: rotate(15deg) scale(1.2);
+            }
         }
 
         .game-universal {
@@ -477,11 +501,13 @@
             transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .action-trigger:hover {
-            transform: scale(1.1);
-            background: #00d2ff;
-            color: #020510;
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.6);
+        @media (hover: hover) {
+            .action-trigger:hover {
+                transform: scale(1.1);
+                background: #00d2ff;
+                color: #020510;
+                box-shadow: 0 0 20px rgba(0, 210, 255, 0.6);
+            }
         }
 
         .action-trigger:active { transform: scale(0.95); }
@@ -492,12 +518,14 @@
             background: rgba(255, 255, 255, 0.02);
         }
 
-        .action-trigger.raw-variant:hover {
-            transform: scale(1.1);
-            color: #ffffff;
-            border-color: #00d2ff;
-            background: rgba(0, 210, 255, 0.15);
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+        @media (hover: hover) {
+            .action-trigger.raw-variant:hover {
+                transform: scale(1.1);
+                color: #ffffff;
+                border-color: #00d2ff;
+                background: rgba(0, 210, 255, 0.15);
+                box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+            }
         }
 
         .footer-signature-container {
@@ -521,10 +549,12 @@
             cursor: default;
         }
 
-        .brand-signature:hover {
-            transform: scale(1.1);
-            opacity: 1;
-            color: #00d2ff;
+        @media (hover: hover) {
+            .brand-signature:hover {
+                transform: scale(1.1);
+                opacity: 1;
+                color: #00d2ff;
+            }
         }
 
         .signature-sub {
@@ -586,7 +616,6 @@
             </div>
             <div class="code-modal-content">
                 <div class="code-block-wrapper">
-                    <!-- 書き込み不可にするため contenteditable を削除 -->
                     <pre><code id="code-target" spellcheck="false"></code></pre>
                 </div>
                 <div class="copy-btn-container">
@@ -642,7 +671,6 @@
     /* ====================================================
        PREVENT LONG-PRESS CONTEXT MENU ON LINKS & BUTTONS
     ==================================================== */
-    // 長押しポップアップメニュー（新しいタブで開く等）をサイト全体で確実に阻止
     window.addEventListener('contextmenu', e => e.preventDefault(), { passive: false });
 
     /* ====================================================
