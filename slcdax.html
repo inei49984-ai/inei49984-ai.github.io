@@ -13,7 +13,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Space Grotesk', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* 青い選択青枠・長押しメニューを全体で徹底的に無効化 */
+            /* 青い選択枠・長押しメニューを全体で無効化 */
             user-select: none;
             -webkit-user-select: none;
             -webkit-touch-callout: none;
@@ -93,19 +93,32 @@
         .bar-mid { width: 20px; }
         .bar-bot { width: 25px; }
 
-        .header-menu-trigger:hover,
+        /* タップ中（.is-pressed）のスタイル */
         .header-menu-trigger.is-pressed {
             transform: scale(1.15);
         }
-        .header-menu-trigger:hover::before,
         .header-menu-trigger.is-pressed::before {
             transform: scale(1);
             opacity: 1;
         }
-        .header-menu-trigger:hover .menu-bar,
         .header-menu-trigger.is-pressed .menu-bar {
             background-color: #00d2ff;
             width: 32px;
+        }
+
+        /* PCのカーソルホバー時のみ適用（スマホでの誤発動を防止） */
+        @media (hover: hover) {
+            .header-menu-trigger:hover {
+                transform: scale(1.15);
+            }
+            .header-menu-trigger:hover::before {
+                transform: scale(1);
+                opacity: 1;
+            }
+            .header-menu-trigger:hover .menu-bar {
+                background-color: #00d2ff;
+                width: 32px;
+            }
         }
 
         /* ====================================================
@@ -169,8 +182,10 @@
             transition: color 0.2s, transform 0.2s;
         }
 
-        .ui-close-btn:hover,
         .ui-close-btn.is-pressed { color: #ffffff; transform: scale(1.2); }
+        @media (hover: hover) {
+            .ui-close-btn:hover { color: #ffffff; transform: scale(1.2); }
+        }
 
         /* ====================================================
            DEVELOPER SNS UI
@@ -196,7 +211,6 @@
             gap: 12px;
         }
 
-        /* Discord / Github アイコンのカード（大きく手前に出て浮き上がる効果） */
         .sns-card {
             display: flex;
             align-items: center;
@@ -235,8 +249,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* 手前に大きく迫り出すホバー・タップ中アニメーション */
-        .sns-card:hover,
+        /* タップ中のみ浮き上がるエフェクト */
         .sns-card.is-pressed {
             z-index: 10;
             transform: translateY(-8px) scale(1.06);
@@ -244,10 +257,22 @@
             border-color: rgba(0, 210, 255, 0.8);
             box-shadow: 0 15px 35px rgba(0, 210, 255, 0.35);
         }
-
-        .sns-card:hover .sns-icon svg,
         .sns-card.is-pressed .sns-icon svg {
             transform: scale(1.2) rotate(6deg);
+        }
+
+        /* PCホバー時のエフェクト */
+        @media (hover: hover) {
+            .sns-card:hover {
+                z-index: 10;
+                transform: translateY(-8px) scale(1.06);
+                background: rgba(0, 210, 255, 0.15);
+                border-color: rgba(0, 210, 255, 0.8);
+                box-shadow: 0 15px 35px rgba(0, 210, 255, 0.35);
+            }
+            .sns-card:hover .sns-icon svg {
+                transform: scale(1.2) rotate(6deg);
+            }
         }
 
         /* ====================================================
@@ -303,11 +328,18 @@
             transition: all 0.2s ease;
         }
 
-        .btn-copy:hover,
         .btn-copy.is-pressed {
             background: rgba(0, 210, 255, 0.25);
             transform: scale(1.05);
             box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+        }
+
+        @media (hover: hover) {
+            .btn-copy:hover {
+                background: rgba(0, 210, 255, 0.25);
+                transform: scale(1.05);
+                box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+            }
         }
 
         .btn-copy.copied {
@@ -349,15 +381,22 @@
             transition: text-shadow 0.4s ease;
         }
 
-        .brand-huge:hover,
         .brand-huge.is-pressed {
             transform: scale(1.08);
             text-shadow: 0 0 100px rgba(0, 210, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.6);
         }
-
-        .brand-huge:hover span,
         .brand-huge.is-pressed span {
             text-shadow: 0 0 50px rgba(0, 210, 255, 1);
+        }
+
+        @media (hover: hover) {
+            .brand-huge:hover {
+                transform: scale(1.08);
+                text-shadow: 0 0 100px rgba(0, 210, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.6);
+            }
+            .brand-huge:hover span {
+                text-shadow: 0 0 50px rgba(0, 210, 255, 1);
+            }
         }
 
         .scroll-indicator {
@@ -400,7 +439,6 @@
             max-width: 900px;
         }
 
-        /* ダウンロードやRAW表示を囲んでいるカード枠（大きく手前に出て浮き上がる効果） */
         .file-card {
             background: rgba(0, 210, 255, 0.03);
             border: 1px solid rgba(0, 210, 255, 0.25);
@@ -417,14 +455,22 @@
             z-index: 1;
         }
 
-        /* 手前に大きく迫り出すホバー・タップ中アニメーション */
-        .file-card:hover,
         .file-card.is-pressed {
             z-index: 10;
             transform: translateY(-12px) scale(1.07);
             box-shadow: 0 20px 45px rgba(0, 210, 255, 0.35);
             border-color: rgba(0, 210, 255, 0.85);
             background: rgba(0, 210, 255, 0.08);
+        }
+
+        @media (hover: hover) {
+            .file-card:hover {
+                z-index: 10;
+                transform: translateY(-12px) scale(1.07);
+                box-shadow: 0 20px 45px rgba(0, 210, 255, 0.35);
+                border-color: rgba(0, 210, 255, 0.85);
+                background: rgba(0, 210, 255, 0.08);
+            }
         }
 
         .file-card-title { font-size: 15px; font-weight: 700; color: #ffffff; }
@@ -444,7 +490,6 @@
             border: 1px solid rgba(0, 210, 255, 0.3);
             background: rgba(0, 210, 255, 0.05);
             transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            -webkit-touch-callout: none;
             touch-action: manipulation;
         }
 
@@ -454,7 +499,6 @@
             pointer-events: none;
         }
 
-        .game-link:hover,
         .game-link.is-pressed {
             transform: scale(1.08);
             background: rgba(0, 210, 255, 0.15);
@@ -462,10 +506,21 @@
             box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
             color: #ffffff;
         }
-
-        .game-link:hover svg,
         .game-link.is-pressed svg {
             transform: rotate(15deg) scale(1.2);
+        }
+
+        @media (hover: hover) {
+            .game-link:hover {
+                transform: scale(1.08);
+                background: rgba(0, 210, 255, 0.15);
+                border-color: rgba(0, 210, 255, 0.8);
+                box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+                color: #ffffff;
+            }
+            .game-link:hover svg {
+                transform: rotate(15deg) scale(1.2);
+            }
         }
 
         .game-universal {
@@ -495,12 +550,20 @@
             touch-action: manipulation;
         }
 
-        .action-trigger:hover,
         .action-trigger.is-pressed {
             transform: scale(1.1);
             background: #00d2ff;
             color: #020510;
             box-shadow: 0 0 20px rgba(0, 210, 255, 0.6);
+        }
+
+        @media (hover: hover) {
+            .action-trigger:hover {
+                transform: scale(1.1);
+                background: #00d2ff;
+                color: #020510;
+                box-shadow: 0 0 20px rgba(0, 210, 255, 0.6);
+            }
         }
 
         .action-trigger.raw-variant {
@@ -509,13 +572,22 @@
             background: rgba(255, 255, 255, 0.02);
         }
 
-        .action-trigger.raw-variant:hover,
         .action-trigger.raw-variant.is-pressed {
             transform: scale(1.1);
             color: #ffffff;
             border-color: #00d2ff;
             background: rgba(0, 210, 255, 0.15);
             box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+        }
+
+        @media (hover: hover) {
+            .action-trigger.raw-variant:hover {
+                transform: scale(1.1);
+                color: #ffffff;
+                border-color: #00d2ff;
+                background: rgba(0, 210, 255, 0.15);
+                box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+            }
         }
 
         .footer-signature-container {
@@ -539,11 +611,18 @@
             cursor: default;
         }
 
-        .brand-signature:hover,
         .brand-signature.is-pressed {
             transform: scale(1.1);
             opacity: 1;
             color: #00d2ff;
+        }
+
+        @media (hover: hover) {
+            .brand-signature:hover {
+                transform: scale(1.1);
+                opacity: 1;
+                color: #00d2ff;
+            }
         }
 
         .signature-sub {
@@ -628,7 +707,7 @@
                 <div class="file-card-title">巨人の時代（ゴジラのゲーム）script</div>
                 <div class="file-card-sub">.lua</div>
                 <a class="game-link touch-target" href="https://www.roblox.com/ja/games/89851325271396/Age-of-Titans" target="_blank" id="roblox-link-1">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"/></svg>
                     roblox.com / Age-of-Titans
                 </a>
                 <div class="file-card-actions">
@@ -658,12 +737,19 @@
 
     <script>
     /* ====================================================
-       TOUCH PRESSED EFFECT FOR MOBILE (タップ中のみ拡大)
+       TOUCH PRESSED EFFECT FOR MOBILE (完全版)
+       指を離した・離脱した瞬間に確実にクラスを除去
     ==================================================== */
     document.querySelectorAll('.touch-target').forEach(el => {
-        el.addEventListener('touchstart', () => el.classList.add('is-pressed'), { passive: true });
-        el.addEventListener('touchend', () => el.classList.remove('is-pressed'));
-        el.addEventListener('touchcancel', () => el.classList.remove('is-pressed'));
+        const removePressed = () => el.classList.remove('is-pressed');
+        
+        el.addEventListener('touchstart', () => {
+            el.classList.add('is-pressed');
+        }, { passive: true });
+
+        el.addEventListener('touchend', removePressed);
+        el.addEventListener('touchcancel', removePressed);
+        el.addEventListener('touchmove', removePressed); // スクロール等で指が動いた時も即解除
     });
 
     /* ====================================================
@@ -845,16 +931,23 @@
     function downloadLua(key) {
         const file = LUA_FILES[key];
         if (!file) return;
-        const bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
-        /* MIMEタイプを application/x-lua または octet-stream に設定することでスマホ側での .txt 自動補完を防ぐ */
-        const blob = new Blob([bom, file.content], { type: 'application/x-lua;charset=utf-8' });
+
+        // MIMEタイプを『application/octet-stream』に変更することで、
+        // スマホブラウザが勝手に .txt や .text を付与するのを防ぎます。
+        const blob = new Blob([file.content], { type: 'application/octet-stream' });
+        
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
         a.download = file.filename;
+        
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        URL.revokeObjectURL(a.href);
+        
+        // メモリ解放を少し遅らせる（iOS Safariでの不具合防止）
+        setTimeout(() => {
+            URL.revokeObjectURL(a.href);
+        }, 100);
     }
 
     /* ====================================================
