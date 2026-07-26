@@ -13,9 +13,11 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Space Grotesk', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* 青い選択青枠・長押しメニューを全体で徹底的に無効化 */
             user-select: none;
             -webkit-user-select: none;
             -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         html { scroll-behavior: smooth; }
@@ -49,7 +51,7 @@
         .header-menu-trigger {
             position: fixed;
             top: 30px;
-            right: 40px; /* 右上に配置 */
+            right: 40px;
             left: auto;
             width: 40px;
             height: 40px;
@@ -63,7 +65,6 @@
             cursor: pointer;
             z-index: 1500;
             touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
             overflow: visible;
             transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -257,6 +258,8 @@
             padding: 16px;
             position: relative;
             box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+            max-height: 250px;
+            overflow-y: auto;
         }
 
         .code-block-wrapper pre {
@@ -270,9 +273,10 @@
             font-size: 13px;
             color: #38bdf8;
             line-height: 1.5;
+            outline: none;
+            /* テキスト読み取り専用の設定 */
             user-select: text;
             -webkit-user-select: text;
-            outline: none;
         }
 
         .copy-btn-container {
@@ -412,6 +416,7 @@
 
         .file-card-actions { display: flex; gap: 12px; }
 
+        /* Robloxリンクの長押し・コンテキストメニュー無効化 */
         .game-link {
             display: inline-flex;
             align-items: center;
@@ -424,11 +429,13 @@
             border: 1px solid rgba(0, 210, 255, 0.3);
             background: rgba(0, 210, 255, 0.05);
             transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-touch-callout: none;
         }
 
         .game-link svg {
             width: 12px; height: 12px; stroke: #00d2ff;
             transition: transform 0.25s ease;
+            pointer-events: none;
         }
 
         .game-link:hover {
@@ -578,7 +585,8 @@
             </div>
             <div class="code-modal-content">
                 <div class="code-block-wrapper">
-                    <pre><code id="code-target" contenteditable="true" spellcheck="false"></code></pre>
+                    <!-- 書き込み不可にするため contenteditable を削除 -->
+                    <pre><code id="code-target" spellcheck="false"></code></pre>
                 </div>
                 <div class="copy-btn-container">
                     <button class="btn-copy" id="btn-copy">コピー</button>
@@ -600,7 +608,7 @@
             <div class="file-card">
                 <div class="file-card-title">巨人の時代（ゴジラのゲーム）script</div>
                 <div class="file-card-sub">.lua</div>
-                <a class="game-link" href="https://www.roblox.com/ja/games/89851325271396/Age-of-Titans" target="_blank">
+                <a class="game-link" href="https://www.roblox.com/ja/games/89851325271396/Age-of-Titans" target="_blank" id="roblox-link-1">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                     roblox.com / Age-of-Titans
                 </a>
@@ -630,6 +638,14 @@
     </div>
 
     <script>
+    /* ====================================================
+       PREVENT LONG-PRESS CONTEXT MENU ON LINKS
+    ==================================================== */
+    // 長押しポップアップメニュー（新しいタブで開く等）を阻止
+    document.querySelectorAll('.game-link').forEach(link => {
+        link.addEventListener('contextmenu', e => e.preventDefault());
+    });
+
     /* ====================================================
        BACKGROUND CANVAS
     ==================================================== */
@@ -831,10 +847,6 @@
         codeModalFilename.textContent = file.filename;
         codeTarget.textContent = file.content;
         codeModal.classList.add('open');
-
-        setTimeout(() => {
-            codeTarget.focus();
-        }, 50);
     }
 
     function closeCodeModal() {
@@ -858,17 +870,6 @@
         }).catch(err => {
             console.error('Copy failed:', err);
         });
-    });
-
-    codeTarget.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'a') {
-            e.preventDefault();
-            const range = document.createRange();
-            range.selectNodeContents(codeTarget);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-        }
     });
 
     document.querySelectorAll('.file-card-actions .action-trigger').forEach(btn => {
