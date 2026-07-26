@@ -6,7 +6,7 @@
     <title>slcdax</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Space+Grotesk:wght@400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Space+Grotesk:wght@400;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -44,12 +44,12 @@
         }
 
         /* ====================================================
-           HAMBURGER
+           HAMBURGER MENU TRIGGER
         ==================================================== */
         .header-menu-trigger {
             position: fixed;
             top: 30px;
-            right: 40px;
+            left: 40px; /* 左上に配置 */
             width: 40px;
             height: 40px;
             display: flex;
@@ -64,7 +64,7 @@
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
             overflow: visible;
-            transition: transform 0.2s ease;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .header-menu-trigger::before {
@@ -76,14 +76,14 @@
             border: 1.5px solid rgba(0, 210, 255, 0.6);
             transform: scale(0.7);
             opacity: 0;
-            transition: transform 0.2s ease, opacity 0.2s ease;
+            transition: transform 0.25s ease, opacity 0.25s ease;
             z-index: -1;
         }
 
         .menu-bar {
             height: 2px;
             background-color: #ffffff;
-            transition: background-color 0.2s ease, width 0.2s ease;
+            transition: background-color 0.25s ease, width 0.25s ease;
             border-radius: 2px;
         }
 
@@ -91,35 +91,27 @@
         .bar-mid { width: 20px; }
         .bar-bot { width: 25px; }
 
-        .header-menu-trigger:active {
-            transform: scale(0.9);
+        .header-menu-trigger:hover {
+            transform: scale(1.15);
         }
-        .header-menu-trigger:active .menu-bar {
+        .header-menu-trigger:hover::before {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .header-menu-trigger:hover .menu-bar {
             background-color: #00d2ff;
+            width: 32px;
         }
-
-        @media (pointer: fine) {
-            .header-menu-trigger:hover {
-                transform: scale(1.12);
-            }
-            .header-menu-trigger:hover::before {
-                transform: scale(1);
-                opacity: 1;
-            }
-            .header-menu-trigger:hover .menu-bar {
-                background-color: #00d2ff;
-                width: 32px;
-            }
-        }
+        .header-menu-trigger:active { transform: scale(0.92); }
 
         /* ====================================================
-           UI CONSOLE
+           UI CONSOLE & MODALS
         ==================================================== */
         .ui-overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            background: rgba(2, 5, 16, 0.75);
+            background: rgba(2, 5, 16, 0.85);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             z-index: 2000;
@@ -128,14 +120,14 @@
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.3s ease;
         }
 
         .ui-overlay.open { opacity: 1; pointer-events: auto; }
 
         .ui-console {
             width: 90%;
-            max-width: 680px;
+            max-width: 500px;
             background: #080f22;
             border: 1px solid rgba(0, 210, 255, 0.25);
             border-radius: 24px;
@@ -143,7 +135,7 @@
             padding: 30px;
             position: relative;
             transform: scale(0.92) translateY(20px);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .ui-overlay.open .ui-console { transform: scale(1) translateY(0); }
@@ -152,7 +144,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .ui-title {
@@ -169,127 +161,151 @@
             color: #94a3b8;
             font-size: 20px;
             cursor: pointer;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
             padding: 6px;
-            transition: color 0.2s, transform 0.15s ease;
+            transition: color 0.2s, transform 0.2s;
         }
 
-        .ui-close-btn:active {
-            color: #ffffff;
-            transform: scale(0.85);
-        }
+        .ui-close-btn:hover { color: #ffffff; transform: scale(1.2); }
 
-        @media (pointer: fine) {
-            .ui-close-btn:hover { color: #ffffff; }
-        }
-
-        .ai-input-container {
+        /* ====================================================
+           DEVELOPER SNS UI
+        ==================================================== */
+        .sns-container {
             width: 100%;
-            background: rgba(2, 5, 16, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 18px;
-            padding: 20px;
             display: flex;
-            flex-direction: column;
-            gap: 20px;
-            position: relative;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        .ai-prompt-placeholder {
-            font-size: 20px;
-            font-weight: 500;
-            color: #ffffff;
-            letter-spacing: 0.5px;
-            line-height: 1.4;
-        }
-
-        /* ---- NEW: Script Viewer Container ---- */
-        .script-viewer-box {
-            display: none; /* デフォルトは非表示 */
             flex-direction: column;
             gap: 16px;
         }
 
-        .script-box-wrapper {
-            width: 100%;
-            background: rgba(2, 5, 16, 0.8);
-            border: 1px solid rgba(0, 210, 255, 0.2);
-            border-radius: 12px;
-            padding: 16px;
-            position: relative;
+        .sns-header-label {
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            color: #64748b;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
-        /* 囲まれたコード部分のみ選択（Ctrl+A）可能にする設定 */
-        .script-code-area {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 13px;
-            color: #4ade80;
-            white-space: pre-wrap;
-            word-break: break-all;
-            user-select: text;
-            -webkit-user-select: text;
-        }
-
-        .script-footer-actions {
+        .sns-link-list {
             display: flex;
-            justify-content: flex-start;
-            align-items: center;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .ai-action-bar {
+        .sns-card {
             display: flex;
-            justify-content: flex-end;
             align-items: center;
-            gap: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 15px;
+            gap: 16px;
+            padding: 16px 20px;
+            background: rgba(2, 5, 16, 0.6);
+            border: 1px solid rgba(0, 210, 255, 0.15);
+            border-radius: 16px;
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            touch-action: manipulation;
         }
 
-        .brand-icon-link {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: #0f1a30;
-            border: 1px solid rgba(0, 210, 255, 0.2);
+        .sns-icon {
+            width: 28px;
+            height: 28px;
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
-            transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
-            text-decoration: none;
+            flex-shrink: 0;
         }
 
-        .brand-icon-link svg {
-            width: 22px;
-            height: 22px;
+        .sns-icon svg {
+            width: 100%;
+            height: 100%;
             fill: #00d2ff;
-            transition: fill 0.2s ease, transform 0.2s ease;
+            transition: transform 0.25s ease;
         }
 
-        .brand-icon-link:active {
-            background: rgba(0, 210, 255, 0.15);
-            border-color: rgba(0, 210, 255, 0.8);
-            box-shadow: 0 0 16px rgba(0, 210, 255, 0.4);
-            transform: scale(0.88);
+        .sns-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.5px;
         }
 
-        @media (pointer: fine) {
-            .brand-icon-link:hover {
-                background: rgba(0, 210, 255, 0.12);
-                border-color: rgba(0, 210, 255, 0.7);
-                box-shadow: 0 0 14px rgba(0, 210, 255, 0.35);
-            }
-            .brand-icon-link:hover svg {
-                transform: scale(1.18);
-            }
+        .sns-card:hover {
+            transform: translateY(-3px) scale(1.02);
+            background: rgba(0, 210, 255, 0.1);
+            border-color: rgba(0, 210, 255, 0.6);
+            box-shadow: 0 5px 20px rgba(0, 210, 255, 0.2);
+        }
+
+        .sns-card:hover .sns-icon svg {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .sns-card:active { transform: scale(0.97); }
+
+        /* ====================================================
+           RAW CODE MODAL STYLES
+        ==================================================== */
+        .code-modal-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .code-block-wrapper {
+            background: #030814;
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            position: relative;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .code-block-wrapper pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .code-block-wrapper code {
+            font-family: 'Fira Code', Consolas, Monaco, monospace;
+            font-size: 13px;
+            color: #38bdf8;
+            line-height: 1.5;
+            user-select: text;
+            -webkit-user-select: text;
+            outline: none;
+        }
+
+        .copy-btn-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-copy {
+            background: rgba(0, 210, 255, 0.1);
+            color: #00d2ff;
+            border: 1px solid #00d2ff;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy:hover {
+            background: rgba(0, 210, 255, 0.25);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+        }
+
+        .btn-copy:active { transform: scale(0.95); }
+        .btn-copy.copied {
+            background: #4ade80;
+            color: #020510;
+            border-color: #4ade80;
         }
 
         /* ====================================================
-           SECTIONS
+           SECTIONS & CARDS
         ==================================================== */
         .hero-section {
             height: 100vh;
@@ -310,20 +326,25 @@
             text-transform: lowercase;
             z-index: 10;
             text-align: center;
-            transition: transform 0.25s ease;
-            touch-action: manipulation;
             text-shadow: 0 0 80px rgba(0, 210, 255, 0.15);
-        }
-
-        @media (pointer: fine) {
-            .brand-huge:hover {
-                transform: scale(1.05);
-            }
+            cursor: default;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), text-shadow 0.4s ease;
         }
 
         .brand-huge span {
             color: #00d2ff;
-            text-shadow: 0 0 30px rgba(0, 210, 255, 0.6), 0 0 60px rgba(0, 210, 255, 0.3);
+            text-shadow: 0 0 30px rgba(0, 210, 255, 0.6);
+            transition: text-shadow 0.4s ease;
+        }
+
+        /* 文字ホバー時の大拡大 & 発光アニメーション */
+        .brand-huge:hover {
+            transform: scale(1.08);
+            text-shadow: 0 0 100px rgba(0, 210, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.6);
+        }
+
+        .brand-huge:hover span {
+            text-shadow: 0 0 50px rgba(0, 210, 255, 1);
         }
 
         .scroll-indicator {
@@ -345,11 +366,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             padding: 100px 24px;
             text-align: center;
             z-index: 10;
-            position: relative;
         }
 
         .site-description {
@@ -357,9 +376,7 @@
             color: #94a3b8;
             max-width: 650px;
             line-height: 1.8;
-            letter-spacing: 1px;
             margin-bottom: 50px;
-            font-weight: 400;
         }
 
         .file-card-group {
@@ -381,41 +398,21 @@
             gap: 16px;
             min-width: 230px;
             box-shadow: 0 0 15px rgba(0, 210, 255, 0.06);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            will-change: transform;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
-        .file-card:active {
-            transform: scale(0.97);
-            box-shadow: 0 0 18px rgba(0, 210, 255, 0.25);
+        .file-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.2);
+            border-color: rgba(0, 210, 255, 0.6);
         }
 
-        @media (pointer: fine) {
-            .file-card:hover {
-                transform: scale(1.07);
-                box-shadow: 0 0 18px rgba(0, 210, 255, 0.3);
-            }
-        }
+        .file-card-title { font-size: 15px; font-weight: 700; color: #ffffff; }
+        .file-card-sub { font-size: 11px; color: #5b7290; margin-top: -10px; }
 
-        .file-card-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 1px;
-        }
+        .file-card-actions { display: flex; gap: 12px; }
 
-        .file-card-sub {
-            font-size: 11px;
-            color: #5b7290;
-            letter-spacing: 1px;
-            margin-top: -10px;
-        }
-
-        .file-card-actions {
-            display: flex;
-            gap: 12px;
-        }
-
+        /* Roblox リンクボタン */
         .game-link {
             display: inline-flex;
             align-items: center;
@@ -423,35 +420,28 @@
             font-size: 11px;
             color: #00d2ff;
             text-decoration: none;
-            letter-spacing: 0.5px;
-            padding: 6px 12px;
+            padding: 8px 14px;
             border-radius: 20px;
             border: 1px solid rgba(0, 210, 255, 0.3);
             background: rgba(0, 210, 255, 0.05);
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
-            transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .game-link svg {
-            width: 12px;
-            height: 12px;
-            stroke: #00d2ff;
-            flex-shrink: 0;
+            width: 12px; height: 12px; stroke: #00d2ff;
+            transition: transform 0.25s ease;
         }
 
-        .game-link:active {
+        .game-link:hover {
+            transform: scale(1.08);
             background: rgba(0, 210, 255, 0.15);
-            border-color: rgba(0, 210, 255, 0.7);
-            transform: scale(0.95);
+            border-color: rgba(0, 210, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+            color: #ffffff;
         }
 
-        @media (pointer: fine) {
-            .game-link:hover {
-                background: rgba(0, 210, 255, 0.12);
-                border-color: rgba(0, 210, 255, 0.7);
-                box-shadow: 0 0 10px rgba(0, 210, 255, 0.25);
-            }
+        .game-link:hover svg {
+            transform: rotate(15deg) scale(1.2);
         }
 
         .game-universal {
@@ -460,60 +450,48 @@
             gap: 6px;
             font-size: 11px;
             color: #4ade80;
-            letter-spacing: 0.5px;
-            padding: 6px 12px;
+            padding: 8px 14px;
             border-radius: 20px;
             border: 1px solid rgba(74, 222, 128, 0.35);
             background: rgba(74, 222, 128, 0.06);
         }
 
-        .game-universal svg {
-            width: 12px;
-            height: 12px;
-            stroke: #4ade80;
-            flex-shrink: 0;
-        }
+        .game-universal svg { width: 12px; height: 12px; stroke: #4ade80; }
 
+        /* ボタン共通設定（ダウンロード・RAWボタン） */
         .action-trigger {
-            background: rgba(0, 210, 255, 0.02);
+            background: rgba(0, 210, 255, 0.05);
             color: #00d2ff;
             border: 1px solid #00d2ff;
-            padding: 16px 36px;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.1);
-            cursor: pointer;
-            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
-            will-change: transform;
-        }
-
-        .action-trigger:active {
-            transform: scale(0.93);
-            box-shadow: 0 0 22px rgba(0, 210, 255, 0.45);
-            background: rgba(0, 210, 255, 0.1);
-        }
-
-        @media (pointer: fine) {
-            .action-trigger:hover {
-                transform: scale(1.06);
-                box-shadow: 0 0 16px rgba(0, 210, 255, 0.4);
-            }
-        }
-
-        .action-trigger.small {
             padding: 10px 20px;
+            border-radius: 30px;
             font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+
+        .action-trigger:hover {
+            transform: scale(1.1);
+            background: #00d2ff;
+            color: #020510;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.6);
+        }
+
+        .action-trigger:active { transform: scale(0.95); }
 
         .action-trigger.raw-variant {
             color: #94a3b8;
             border-color: #4a5b73;
-            box-shadow: none;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .action-trigger.raw-variant:hover {
+            transform: scale(1.1);
+            color: #ffffff;
+            border-color: #00d2ff;
+            background: rgba(0, 210, 255, 0.15);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
         }
 
         .footer-signature-container {
@@ -522,11 +500,9 @@
             padding: 60px 0 50px 0;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             background-color: rgba(2, 5, 16, 0.6);
             border-top: 1px solid rgba(255, 255, 255, 0.04);
-            position: relative;
             z-index: 10;
         }
 
@@ -534,20 +510,22 @@
             font-family: 'Alex Brush', cursive;
             font-size: clamp(38px, 6vw, 65px);
             color: #94a3b8;
-            font-weight: 300;
-            letter-spacing: 1px;
-            text-align: center;
             opacity: 0.7;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.3s ease, opacity 0.3s ease, color 0.3s ease;
+            cursor: default;
+        }
+
+        .brand-signature:hover {
+            transform: scale(1.1);
+            opacity: 1;
+            color: #00d2ff;
         }
 
         .signature-sub {
             font-size: 10px;
             color: #24354b;
             letter-spacing: 6px;
-            text-transform: uppercase;
             margin-top: 10px;
-            font-weight: 500;
         }
     </style>
 </head>
@@ -555,59 +533,71 @@
 
     <canvas id="bg-canvas"></canvas>
 
+    <!-- Global Menu Trigger (左上の3本線ボタン) -->
     <button class="header-menu-trigger" id="global-menu-btn" title="Menu">
         <span class="menu-bar bar-top"></span>
         <span class="menu-bar bar-mid"></span>
         <span class="menu-bar bar-bot"></span>
     </button>
 
+    <!-- Console Menu Overlay (開発者のSNS画面) -->
     <div class="ui-overlay" id="ui-overlay">
         <div class="ui-console">
             <div class="ui-header">
-                <span class="ui-title" id="console-header-title">System Console</span>
+                <span class="ui-title">SYSTEM CONSOLE</span>
                 <button class="ui-close-btn" id="ui-close-btn">✕</button>
             </div>
-            
-            <!-- デフォルトのメニューコンテンツ -->
-            <div class="ai-input-container" id="menu-content-box">
-                <div class="ai-prompt-placeholder">開発者のsns</div>
-                <div class="ai-action-bar">
-                    <a href="https://discord.gg/DgghS5AtvU" target="_blank" class="brand-icon-link" title="Discord">
-                        <svg viewBox="0 0 127.14 96.36">
-                            <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a74.37,74.37,0,0,0,6.72-11A68.55,68.55,0,0,1,28,80.47c1-.72,2-1.47,3-2.25a74.55,74.55,0,0,0,65.3,0c1,.78,2,1.53,3,2.25a68.55,68.55,0,0,1-10.74,4.9,74.37,74.37,0,0,0,6.72,11,105.73,105.73,0,0,0,31.29-18.83C130.23,48.22,123.66,25.43,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.93,46,53.82,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.17,46,96.06,53,91,65.69,84.69,65.69Z"/>
-                        </svg>
+            <div class="sns-container">
+                <span class="sns-header-label">DEVELOPER SNS</span>
+                <div class="sns-link-list">
+                    <a href="https://discord.gg/DgghS5AtvU" target="_blank" class="sns-card">
+                        <div class="sns-icon">
+                            <svg viewBox="0 0 127.14 96.36">
+                                <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a74.37,74.37,0,0,0,6.72-11A68.55,68.55,0,0,1,28,80.47c1-.72,2-1.47,3-2.25a74.55,74.55,0,0,0,65.3,0c1,.78,2,1.53,3,2.25a68.55,68.55,0,0,1-10.74,4.9,74.37,74.37,0,0,0,6.72,11,105.73,105.73,0,0,0,31.29-18.83C130.23,48.22,123.66,25.43,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.93,46,53.82,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.17,46,96.06,53,91,65.69,84.69,65.69Z"/>
+                            </svg>
+                        </div>
+                        <span class="sns-name">Discord</span>
                     </a>
-                    <a href="https://github.com/inei49984-ai" target="_blank" class="brand-icon-link" title="GitHub">
-                        <svg viewBox="0 0 98 96">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.261 33.4 46.754 2.443.453 3.332-.1 3.332-2.372 0-1.17-.04-4.269-.062-8.38-13.59 2.978-16.458-6.611-16.458-6.611-2.222-5.692-5.424-7.207-5.424-7.207-4.434-3.055.336-2.995.336-2.995 4.903.348 7.484 5.086 7.484 5.086 4.359 7.534 11.432 5.358 14.217 4.095.442-3.187 1.705-5.361 3.102-6.594-10.85-1.243-22.256-5.474-22.256-24.378 0-5.387 1.905-9.79 5.039-13.239-.504-1.25-2.184-6.269.477-13.06 0 0 4.113-1.328 13.473 5.068 3.908-1.096 8.099-1.644 12.263-1.663 4.159.019 8.354.567 12.27 1.663 9.347-6.396 13.447-5.068 13.447-5.068 2.67 6.791.99 11.81.487 13.06 3.14 3.449 5.033 7.852 5.033 13.239 0 18.952-11.425 23.121-22.31 24.339 1.756 1.527 3.322 4.529 3.322 9.127 0 6.591-.06 11.907-.06 13.525 0 2.292.876 4.861 3.364 4.374C84.025 89.467 98 70.97 98 49.217 98 22 76.155 0 48.854 0z"/>
-                        </svg>
+                    <a href="https://github.com/inei49984-ai" target="_blank" class="sns-card">
+                        <div class="sns-icon">
+                            <svg viewBox="0 0 98 96">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.261 33.4 46.754 2.443.453 3.332-.1 3.332-2.372 0-1.17-.04-4.269-.062-8.38-13.59 2.978-16.458-6.611-16.458-6.611-2.222-5.692-5.424-7.207-5.424-7.207-4.434-3.055.336-2.995.336-2.995 4.903.348 7.484 5.086 7.484 5.086 4.359 7.534 11.432 5.358 14.217 4.095.442-3.187 1.705-5.361 3.102-6.594-10.85-1.243-22.256-5.474-22.256-24.378 0-5.387 1.905-9.79 5.039-13.239-.504-1.25-2.184-6.269.477-13.06 0 0 4.113-1.328 13.473 5.068 3.908-1.096 8.099-1.644 12.263-1.663 4.159.019 8.354.567 12.27 1.663 9.347-6.396 13.447-5.068 13.447-5.068 2.67 6.791.99 11.81.487 13.06 3.14 3.449 5.033 7.852 5.033 13.239 0 18.952-11.425 23.121-22.31 24.339 1.756 1.527 3.322 4.529 3.322 9.127 0 6.591-.06 11.907-.06 13.525 0 2.292.876 4.861 3.364 4.374C84.025 89.467 98 70.97 98 49.217 98 22 76.155 0 48.854 0z"/>
+                            </svg>
+                        </div>
+                        <span class="sns-name">GitHub</span>
                     </a>
                 </div>
             </div>
-
-            <!-- NEW: スクリプトRAW表示用のコンテンツ -->
-            <div class="script-viewer-box" id="script-viewer-box">
-                <div class="script-box-wrapper">
-                    <!-- この中だけが全選択(Ctrl+A)の対象になります -->
-                    <div class="script-code-area" id="script-code-area"></div>
-                </div>
-                <div class="script-footer-actions">
-                    <button class="action-trigger small" id="script-copy-btn">コピー</button>
-                </div>
-            </div>
-
         </div>
     </div>
 
+    <!-- RAW Code Viewer Modal -->
+    <div class="ui-overlay" id="code-modal">
+        <div class="ui-console">
+            <div class="ui-header">
+                <span class="ui-title" id="code-modal-filename">SCRIPT VIEW</span>
+                <button class="ui-close-btn" id="code-modal-close-btn">✕</button>
+            </div>
+            <div class="code-modal-content">
+                <div class="code-block-wrapper">
+                    <pre><code id="code-target" contenteditable="true" spellcheck="false"></code></pre>
+                </div>
+                <div class="copy-btn-container">
+                    <button class="btn-copy" id="btn-copy">コピー</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
     <div class="hero-section">
         <h1 class="brand-huge">slcdax<span>.</span></h1>
         <div class="scroll-indicator">↓ Scroll Down</div>
     </div>
 
+    <!-- Content Section -->
     <div class="content-section">
-        <p class="site-description">
-            ineiにより作成されたscriptを配布しています。
-        </p>
+        <p class="site-description">ineiにより作成されたscriptを配布しています。</p>
         <div class="file-card-group">
             <div class="file-card">
                 <div class="file-card-title">巨人の時代（ゴジラのゲーム）script</div>
@@ -617,7 +607,7 @@
                     roblox.com / Age-of-Titans
                 </a>
                 <div class="file-card-actions">
-                    <button class="action-trigger btn-primary small" data-file="kyojin" data-mode="download">ダウンロード</button>
+                    <button class="action-trigger small" data-file="kyojin" data-mode="download">ダウンロード</button>
                     <button class="action-trigger raw-variant small" data-file="kyojin" data-mode="raw">RAW (scriptを) 表示</button>
                 </div>
             </div>
@@ -629,7 +619,7 @@
                     すべてのゲームで利用可能
                 </div>
                 <div class="file-card-actions">
-                    <button class="action-trigger btn-primary small" data-file="zoshoku" data-mode="download">ダウンロード</button>
+                    <button class="action-trigger small" data-file="zoshoku" data-mode="download">ダウンロード</button>
                     <button class="action-trigger raw-variant small" data-file="zoshoku" data-mode="raw">RAW (scriptを) 表示</button>
                 </div>
             </div>
@@ -643,7 +633,7 @@
 
     <script>
     /* ====================================================
-       BACKGROUND — lightweight: stars + static nebula + geometry
+       BACKGROUND CANVAS
     ==================================================== */
     (function() {
         const canvas = document.getElementById('bg-canvas');
@@ -664,7 +654,6 @@
                 tw: Math.random() * Math.PI * 2,
                 vx: (Math.random() - 0.5) * (0.000015 + layer * 0.00008),
                 vy: (Math.random() - 0.5) * (0.000010 + layer * 0.00005),
-                layer
             };
         });
 
@@ -711,24 +700,11 @@
             if (nextShoot <= 0) {
                 const edge = Math.floor(Math.random() * 3);
                 let sx, sy, angle;
-                if (edge === 0) {
-                    sx = Math.random(); sy = 0;
-                    angle = (20 + Math.random() * 40) * Math.PI / 180;
-                } else if (edge === 1) {
-                    sx = 0; sy = Math.random() * 0.6;
-                    angle = (-20 + Math.random() * 40) * Math.PI / 180;
-                } else {
-                    sx = 0.6 + Math.random() * 0.4; sy = 0;
-                    angle = Math.PI - (20 + Math.random() * 40) * Math.PI / 180;
-                }
+                if (edge === 0) { sx = Math.random(); sy = 0; angle = (20 + Math.random() * 40) * Math.PI / 180; }
+                else if (edge === 1) { sx = 0; sy = Math.random() * 0.6; angle = (-20 + Math.random() * 40) * Math.PI / 180; }
+                else { sx = 0.6 + Math.random() * 0.4; sy = 0; angle = Math.PI - (20 + Math.random() * 40) * Math.PI / 180; }
                 const speed = 0.009 + Math.random() * 0.008;
-                shoots.push({
-                    x: sx, y: sy,
-                    vx: Math.cos(angle) * speed,
-                    vy: Math.sin(angle) * speed,
-                    life: 1.0, tail: [],
-                    bright: 0.6 + Math.random() * 0.4
-                });
+                shoots.push({ x: sx, y: sy, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: 1.0, tail: [], bright: 0.6 + Math.random() * 0.4 });
                 nextShoot = 900 + Math.random() * 1800;
             }
 
@@ -736,7 +712,6 @@
                 s.x += s.vx; s.y += s.vy;
                 if (s.x < 0) s.x = 1; if (s.x > 1) s.x = 0;
                 if (s.y < 0) s.y = 1; if (s.y > 1) s.y = 0;
-
                 const tw = 0.55 + Math.sin(t * 0.0009 + s.tw) * 0.45;
                 ctx.globalAlpha = s.a * tw;
                 ctx.fillStyle = s.r > 1.8 ? '#cceeff' : '#ffffff';
@@ -804,46 +779,27 @@
     })();
 
     /* ====================================================
-       UI CONSOLE & SCRIPT VIEWER LOGIC
+       SYSTEM CONSOLE LOGIC
     ==================================================== */
     const globalMenuBtn = document.getElementById('global-menu-btn');
     const uiOverlay = document.getElementById('ui-overlay');
     const uiCloseBtn = document.getElementById('ui-close-btn');
-    const consoleHeaderTitle = document.getElementById('console-header-title');
-    
-    const menuContentBox = document.getElementById('menu-content-box');
-    const scriptViewerBox = document.getElementById('script-viewer-box');
-    const scriptCodeArea = document.getElementById('script-code-area');
-    const scriptCopyBtn = document.getElementById('script-copy-btn');
 
-    let activeScriptText = ""; // コピー用の一時保持変数
-
-    // ハンバーガーメニューが押された時（デフォルト表示に戻す）
-    globalMenuBtn.addEventListener('click', () => {
-        consoleHeaderTitle.textContent = "System Console";
-        menuContentBox.style.display = "flex";
-        scriptViewerBox.style.display = "none";
-        uiOverlay.classList.add('open');
-    });
-
-    uiCloseBtn.addEventListener('click', () => { uiOverlay.classList.remove('open'); });
-    uiOverlay.addEventListener('click', e => {
-        if (e.target === uiOverlay) { uiOverlay.classList.remove('open'); }
-    });
+    globalMenuBtn.addEventListener('click', () => uiOverlay.classList.add('open'));
+    uiCloseBtn.addEventListener('click', () => uiOverlay.classList.remove('open'));
+    uiOverlay.addEventListener('click', e => { if (e.target === uiOverlay) uiOverlay.classList.remove('open'); });
 
     /* ====================================================
-       LUA FILES DATA
+       SCRIPT DATA & ACTIONS
     ==================================================== */
     const LUA_FILES = {
         kyojin: {
             filename: '巨人の時代.lua',
-            titleName: '巨人の時代 SCRIPT',
-            content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/inei49984-ai/gozila-game-roblox/refs/heads/main/gizlia%20sciprt.lua"))()\n'
+            content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/inei49984-ai/gozila-game-roblox/refs/heads/main/gizlia%20sciprt.lua"))()'
         },
         zoshoku: {
             filename: '増殖アイテム.lua',
-            titleName: '増殖アイテム SCRIPT',
-            content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/inei49984-ai/poopzous/refs/heads/main/unchikhub.lua"))()\n'
+            content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/inei49984-ai/poopzous/refs/heads/main/unchikhub.lua"))()'
         }
     };
 
@@ -861,57 +817,68 @@
         URL.revokeObjectURL(a.href);
     }
 
-    // RAW表示ボタンを押した時にコンソール内にコードを展開する処理
-    function openScriptInConsole(key) {
+    /* ====================================================
+       RAW MODAL & COPY FUNCTIONALITY
+    ==================================================== */
+    const codeModal = document.getElementById('code-modal');
+    const codeModalCloseBtn = document.getElementById('code-modal-close-btn');
+    const codeTarget = document.getElementById('code-target');
+    const codeModalFilename = document.getElementById('code-modal-filename');
+    const btnCopy = document.getElementById('btn-copy');
+
+    function openCodeModal(key) {
         const file = LUA_FILES[key];
         if (!file) return;
 
-        activeScriptText = file.content;
-        scriptCodeArea.textContent = file.content;
-        
-        // ヘッダータイトルの変更とコンテンツの切り替え
-        consoleHeaderTitle.textContent = file.titleName;
-        menuContentBox.style.display = "none";
-        scriptViewerBox.style.display = "flex";
-        
-        // コピーボタンの文言を元に戻す
-        scriptCopyBtn.textContent = "コピー";
-        scriptCopyBtn.style.borderColor = "#00d2ff";
-        scriptCopyBtn.style.color = "#00d2ff";
+        codeModalFilename.textContent = file.filename;
+        codeTarget.textContent = file.content;
+        codeModal.classList.add('open');
 
-        // ポップアップを開く
-        uiOverlay.classList.add('open');
+        setTimeout(() => {
+            codeTarget.focus();
+        }, 50);
     }
 
-    // コピーボタンの処理
-    scriptCopyBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText(activeScriptText).then(() => {
-            // コピー成功時の演出
-            scriptCopyBtn.textContent = "コピー完了";
-            scriptCopyBtn.style.borderColor = "#4ade80";
-            scriptCopyBtn.style.color = "#4ade80";
-            
-            // 2秒後に元のボタン表示に戻す
+    function closeCodeModal() {
+        codeModal.classList.remove('open');
+        btnCopy.classList.remove('copied');
+        btnCopy.textContent = 'コピー';
+    }
+
+    codeModalCloseBtn.addEventListener('click', closeCodeModal);
+    codeModal.addEventListener('click', e => { if (e.target === codeModal) closeCodeModal(); });
+
+    btnCopy.addEventListener('click', () => {
+        const textToCopy = codeTarget.textContent;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            btnCopy.classList.add('copied');
+            btnCopy.textContent = 'コピー完了！';
             setTimeout(() => {
-                scriptCopyBtn.textContent = "コピー";
-                scriptCopyBtn.style.borderColor = "#00d2ff";
-                scriptCopyBtn.style.color = "#00d2ff";
+                btnCopy.classList.remove('copied');
+                btnCopy.textContent = 'コピー';
             }, 2000);
         }).catch(err => {
-            console.error('コピーに失敗しました: ', err);
+            console.error('Copy failed:', err);
         });
     });
 
-    // 既存カードのボタンイベント割り当て
+    codeTarget.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'a') {
+            e.preventDefault();
+            const range = document.createRange();
+            range.selectNodeContents(codeTarget);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+    });
+
     document.querySelectorAll('.file-card-actions .action-trigger').forEach(btn => {
         btn.addEventListener('click', () => {
             const key = btn.getAttribute('data-file');
             const mode = btn.getAttribute('data-mode');
-            if (mode === 'download') {
-                downloadLua(key);
-            } else if (mode === 'raw') {
-                openScriptInConsole(key);
-            }
+            if (mode === 'download') downloadLua(key);
+            else if (mode === 'raw') openCodeModal(key);
         });
     });
     </script>
