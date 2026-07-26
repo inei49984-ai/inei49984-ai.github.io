@@ -430,6 +430,7 @@
             background: rgba(0, 210, 255, 0.05);
             transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             -webkit-touch-callout: none;
+            touch-action: manipulation;
         }
 
         .game-link svg {
@@ -609,7 +610,7 @@
                 <div class="file-card-title">巨人の時代（ゴジラのゲーム）script</div>
                 <div class="file-card-sub">.lua</div>
                 <a class="game-link" href="https://www.roblox.com/ja/games/89851325271396/Age-of-Titans" target="_blank" id="roblox-link-1">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"/></svg>
                     roblox.com / Age-of-Titans
                 </a>
                 <div class="file-card-actions">
@@ -639,12 +640,10 @@
 
     <script>
     /* ====================================================
-       PREVENT LONG-PRESS CONTEXT MENU ON LINKS
+       PREVENT LONG-PRESS CONTEXT MENU ON LINKS & BUTTONS
     ==================================================== */
-    // 長押しポップアップメニュー（新しいタブで開く等）を阻止
-    document.querySelectorAll('.game-link').forEach(link => {
-        link.addEventListener('contextmenu', e => e.preventDefault());
-    });
+    // 長押しポップアップメニュー（新しいタブで開く等）をサイト全体で確実に阻止
+    window.addEventListener('contextmenu', e => e.preventDefault(), { passive: false });
 
     /* ====================================================
        BACKGROUND CANVAS
