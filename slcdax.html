@@ -19,43 +19,181 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* --------------------------------------------------
+           CSS Variables (初期値: ダークモード / 完全な黒と白)
+        -------------------------------------------------- */
+        :root {
+            --bg-color: #000000;         /* 完全な黒 */
+            --header-border: #222222;
+            --logo-color: #ffffff;       /* 完全な白 */
+            --text-title: #ffffff;       /* 完全な白 */
+            --text-sub: #ffffff;         /* 完全な白 */
+            --card-bg: #0d0d0d;
+            --card-border: #222222;
+            --card-hover-border: #555555;
+            --link-bg: #111111;
+            --link-border: #222222;
+            --link-text: #ffffff;
+            
+            /* ダウンロードボタン（鮮やかな青） */
+            --btn-dl-bg: #2563eb;
+            --btn-dl-text: #ffffff;
+            --btn-dl-hover: #1d4ed8;
+
+            /* サブボタン（RAW表示など） */
+            --btn-sec-bg: #181818;
+            --btn-sec-text: #ffffff;
+            --btn-sec-border: #333333;
+
+            /* 全ゲーム対応バッジ（緑） */
+            --badge-green-bg: rgba(34, 197, 94, 0.15);
+            --badge-green-border: #22c55e;
+            --badge-green-text: #4ade80;
+
+            --overlay-bg: rgba(0, 0, 0, 0.85);
+            --modal-bg: #0a0a0a;
+            --modal-border: #222222;
+            --code-bg: #000000;
+            --code-text: #ffffff;
+            --footer-border: #222222;
+            --footer-text: #888888;
+            --icon-fill: #ffffff;
+        }
+
+        /* --------------------------------------------------
+           ライトモード (白背景)
+        -------------------------------------------------- */
+        body.light-mode {
+            --bg-color: #ffffff;
+            --header-border: #e5e5e5;
+            --logo-color: #000000;
+            --text-title: #000000;
+            --text-sub: #333333;
+            --card-bg: #f9f9f9;
+            --card-border: #e5e5e5;
+            --card-hover-border: #999999;
+            --link-bg: #f0f0f0;
+            --link-border: #e0e0e0;
+            --link-text: #000000;
+            
+            --btn-dl-bg: #2563eb;
+            --btn-dl-text: #ffffff;
+            --btn-dl-hover: #1d4ed8;
+
+            --btn-sec-bg: #ffffff;
+            --btn-sec-text: #000000;
+            --btn-sec-border: #ccc;
+
+            --badge-green-bg: #dcfce7;
+            --badge-green-border: #86efac;
+            --badge-green-text: #15803d;
+
+            --overlay-bg: rgba(255, 255, 255, 0.85);
+            --modal-bg: #ffffff;
+            --modal-border: #e5e5e5;
+            --code-bg: #f4f4f4;
+            --code-text: #000000;
+            --footer-border: #e5e5e5;
+            --footer-text: #666666;
+            --icon-fill: #000000;
+        }
+
         body {
-            background-color: #000000;
-            color: #ffffff;
+            background-color: var(--bg-color);
+            color: var(--text-title);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* ヘッダー / メニューボタン */
+        /* ヘッダー */
         .header {
             width: 100%;
             padding: 24px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid var(--header-border);
         }
 
         .header-logo {
             font-size: 20px;
             font-weight: 800;
             letter-spacing: -0.5px;
-            color: #ffffff;
+            color: var(--logo-color);
         }
 
-        .header-menu-btn {
-            background: none;
-            border: 1px solid #333333;
-            color: #ffffff;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 13px;
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* テーマ切り替えボタン */
+        .theme-toggle-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
             cursor: pointer;
+            color: var(--icon-fill);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .header-menu-btn:active {
-            background: #222222;
+        .theme-toggle-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .theme-toggle-btn:active,
+        .theme-toggle-btn.is-pressed {
+            transform: scale(0.92);
+        }
+
+        /* 三本線メニューボタン */
+        .header-menu-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .menu-bar {
+            width: 18px;
+            height: 2px;
+            background-color: var(--icon-fill);
+            border-radius: 2px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .header-menu-btn:active,
+        .header-menu-btn.is-pressed {
+            transform: scale(0.92);
+        }
+
+        @media (hover: hover) {
+            .theme-toggle-btn:hover,
+            .header-menu-btn:hover {
+                border-color: var(--card-hover-border);
+            }
+            .header-menu-btn:hover .menu-bar:nth-child(2) {
+                width: 14px;
+            }
         }
 
         /* メインコンテンツ */
@@ -71,11 +209,12 @@
             font-weight: 800;
             letter-spacing: -1px;
             margin-bottom: 12px;
+            color: var(--text-title);
         }
 
         .site-description {
             font-size: 15px;
-            color: #888888;
+            color: var(--text-sub);
             margin-bottom: 48px;
             line-height: 1.6;
         }
@@ -88,13 +227,25 @@
         }
 
         .file-card {
-            background: #111111;
-            border: 1px solid #222222;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 12px;
             padding: 24px;
             display: flex;
             flex-direction: column;
             gap: 16px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .file-card.is-pressed {
+            transform: scale(0.98);
+        }
+
+        @media (hover: hover) {
+            .file-card:hover {
+                border-color: var(--card-hover-border);
+                transform: translateY(-2px);
+            }
         }
 
         .file-info {
@@ -106,64 +257,131 @@
         .file-card-title {
             font-size: 16px;
             font-weight: 600;
-            color: #ffffff;
+            color: var(--text-title);
         }
 
-        .file-card-sub {
-            font-size: 13px;
-            color: #666666;
-        }
-
+        /* Roblox リンクデザイン */
         .game-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             font-size: 12px;
-            color: #888888;
-            text-decoration: underline;
+            color: var(--link-text);
+            text-decoration: none;
             width: fit-content;
+            padding: 6px 12px;
+            background: var(--link-bg);
+            border: 1px solid var(--link-border);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            word-break: break-all;
+        }
+
+        .game-link svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--icon-fill);
+            flex-shrink: 0;
+        }
+
+        .game-link:hover {
+            border-color: var(--card-hover-border);
         }
 
         .file-card-actions {
             display: flex;
+            align-items: center;
             gap: 12px;
             margin-top: 8px;
+            flex-wrap: wrap;
         }
 
-        .btn {
-            background: #ffffff;
-            color: #000000;
-            border: 1px solid #ffffff;
+        /* ダウンロードボタン（青） */
+        .btn-download {
+            background: var(--btn-dl-bg);
+            color: var(--btn-dl-text);
+            border: 1px solid var(--btn-dl-bg);
             padding: 10px 20px;
             border-radius: 6px;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .btn:active {
+        .btn-download:active,
+        .btn-download.is-pressed {
+            transform: scale(0.95);
+            opacity: 0.9;
+        }
+
+        @media (hover: hover) {
+            .btn-download:hover {
+                background: var(--btn-dl-hover);
+                border-color: var(--btn-dl-hover);
+            }
+        }
+
+        /* サブボタン（RAW表示など） */
+        .btn-secondary {
+            background: var(--btn-sec-bg);
+            color: var(--btn-sec-text);
+            border: 1px solid var(--btn-sec-border);
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-secondary:active,
+        .btn-secondary.is-pressed {
+            transform: scale(0.95);
             opacity: 0.8;
         }
 
-        .btn-secondary {
-            background: transparent;
-            color: #ffffff;
-            border: 1px solid #333333;
+        @media (hover: hover) {
+            .btn-secondary:hover {
+                border-color: var(--card-hover-border);
+            }
         }
 
-        .btn-secondary:active {
-            background: #222222;
+        /* 全ゲーム対応バッジ（緑チェックマーク付き） */
+        .badge-all-games {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--badge-green-text);
+            background: var(--badge-green-bg);
+            border: 1px solid var(--badge-green-border);
+            padding: 6px 12px;
+            border-radius: 20px;
         }
 
-        /* モーダル (ダイアログ) */
+        .badge-all-games svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        /* モーダル */
         .ui-overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.8);
+            background: var(--overlay-bg);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             z-index: 1000;
             display: flex;
             justify-content: center;
             align-items: center;
             opacity: 0;
             pointer-events: none;
+            transition: opacity 0.25s ease;
         }
 
         .ui-overlay.open {
@@ -174,10 +392,16 @@
         .ui-console {
             width: 90%;
             max-width: 500px;
-            background: #111111;
-            border: 1px solid #333333;
+            background: var(--modal-bg);
+            border: 1px solid var(--modal-border);
             border-radius: 12px;
             padding: 24px;
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .ui-overlay.open .ui-console {
+            transform: scale(1) translateY(0);
         }
 
         .ui-header {
@@ -190,17 +414,24 @@
         .ui-title {
             font-size: 14px;
             font-weight: 600;
-            color: #ffffff;
+            color: var(--text-title);
         }
 
         .ui-close-btn {
             background: none;
             border: none;
-            color: #888888;
+            color: var(--badge-green-text);
             font-size: 18px;
             cursor: pointer;
+            padding: 4px 8px;
+            transition: color 0.2s ease;
         }
 
+        .ui-close-btn:hover {
+            color: var(--text-title);
+        }
+
+        /* SNSカード */
         .sns-link-list {
             display: flex;
             flex-direction: column;
@@ -208,19 +439,41 @@
         }
 
         .sns-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             padding: 14px 16px;
-            background: #000000;
-            border: 1px solid #222222;
+            background: var(--link-bg);
+            border: 1px solid var(--link-border);
             border-radius: 8px;
-            color: #ffffff;
+            color: var(--text-title);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sns-card svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--icon-fill);
+            flex-shrink: 0;
+        }
+
+        .sns-card:active,
+        .sns-card.is-pressed {
+            transform: scale(0.98);
+        }
+
+        @media (hover: hover) {
+            .sns-card:hover {
+                border-color: var(--card-hover-border);
+            }
         }
 
         .code-block-wrapper {
-            background: #000000;
-            border: 1px solid #222222;
+            background: var(--code-bg);
+            border: 1px solid var(--card-border);
             border-radius: 8px;
             padding: 16px;
             max-height: 200px;
@@ -231,7 +484,7 @@
         .code-block-wrapper code {
             font-family: 'Fira Code', monospace;
             font-size: 12px;
-            color: #cccccc;
+            color: var(--code-text);
             white-space: pre-wrap;
             word-break: break-all;
             user-select: text;
@@ -242,8 +495,8 @@
         .footer {
             padding: 32px;
             text-align: center;
-            border-top: 1px solid #111111;
-            color: #444444;
+            border-top: 1px solid var(--footer-border);
+            color: var(--footer-text);
             font-size: 12px;
         }
     </style>
@@ -252,34 +505,53 @@
 
     <header class="header">
         <div class="header-logo">slcdax</div>
-        <button class="header-menu-btn" id="global-menu-btn">Menu</button>
+        <div class="header-right">
+            <button class="theme-toggle-btn touch-target" id="theme-toggle-btn" title="テーマ切り替え">
+                <svg id="theme-icon" viewBox="0 0 24 24">
+                    <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+                </svg>
+            </button>
+            <button class="header-menu-btn touch-target" id="global-menu-btn" title="Menu">
+                <span class="menu-bar"></span>
+                <span class="menu-bar"></span>
+                <span class="menu-bar"></span>
+            </button>
+        </div>
     </header>
 
     <main class="container">
-        <h1 class="hero-title">Script distribution.</h1>
+        <!-- タイトルを Script に変更 -->
+        <h1 class="hero-title">Script</h1>
         <p class="site-description">ineiにより作成されたscriptを配布しています。</p>
 
         <div class="file-list">
-            <div class="file-card">
+            <div class="file-card touch-target">
                 <div class="file-info">
                     <div class="file-card-title">巨人の時代（ゴジラのゲーム）script</div>
-                    <div class="file-card-sub">.lua</div>
                 </div>
-                <a class="game-link" href="https://www.roblox.com/ja/games/89851325271396/Age-of-Titans" target="_blank">Robloxでゲームを開く ↗</a>
+                <a class="game-link" href="https://www.roblox.com/ja/games/89851325271396/Age-of-Titans" target="_blank">
+                    <svg viewBox="0 0 24 24"><path d="M18.926 23.843 0 18.927 5.075 0l18.925 4.916-5.074 18.927zM9.38 10.153l1.229 4.73 4.73-1.229-1.229-4.73-4.73 1.229z"/></svg>
+                    https://www.roblox.com/ja/games/89851325271396/Age-of-Titans
+                </a>
                 <div class="file-card-actions">
-                    <button class="btn" data-file="kyojin" data-mode="download">ダウンロード</button>
-                    <button class="btn btn-secondary" data-file="kyojin" data-mode="raw">RAW表示</button>
+                    <button class="btn-download touch-target" data-file="kyojin" data-mode="download">ダウンロード</button>
+                    <button class="btn-secondary touch-target" data-file="kyojin" data-mode="raw">RAW表示</button>
                 </div>
             </div>
 
-            <div class="file-card">
+            <div class="file-card touch-target">
                 <div class="file-info">
                     <div class="file-card-title">増殖アイテム</div>
-                    <div class="file-card-sub">.lua (全ゲーム対応)</div>
                 </div>
                 <div class="file-card-actions">
-                    <button class="btn" data-file="zoshoku" data-mode="download">ダウンロード</button>
-                    <button class="btn btn-secondary" data-file="zoshoku" data-mode="raw">RAW表示</button>
+                    <button class="btn-download touch-target" data-file="zoshoku" data-mode="download">ダウンロード</button>
+                    <button class="btn-secondary touch-target" data-file="zoshoku" data-mode="raw">RAW表示</button>
+                    
+                    <!-- 緑のチェックマーク付き「全ゲーム対応」バッジ -->
+                    <span class="badge-all-games">
+                        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        全ゲーム対応
+                    </span>
                 </div>
             </div>
         </div>
@@ -289,7 +561,7 @@
         © slcdax
     </footer>
 
-    <!-- Menu Modal -->
+    <!-- SNS Modal -->
     <div class="ui-overlay" id="ui-overlay">
         <div class="ui-console">
             <div class="ui-header">
@@ -297,13 +569,19 @@
                 <button class="ui-close-btn" id="ui-close-btn">✕</button>
             </div>
             <div class="sns-link-list">
-                <a href="https://discord.gg/DgghS5AtvU" target="_blank" class="sns-card">Discord ↗</a>
-                <a href="https://github.com/inei49984-ai" target="_blank" class="sns-card">GitHub ↗</a>
+                <a href="https://discord.gg/DgghS5AtvU" target="_blank" class="sns-card touch-target">
+                    <svg viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a74.37,74.37,0,0,0,6.72-11A68.55,68.55,0,0,1,28,80.47c1-.72,2-1.47,3-2.25a74.55,74.55,0,0,0,65.3,0c1,.78,2,1.53,3,2.25a68.55,68.55,0,0,1-10.74,4.9,74.37,74.37,0,0,0,6.72,11,105.73,105.73,0,0,0,31.29-18.83C130.23,48.22,123.66,25.43,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.93,46,53.82,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.17,46,96.06,53,91,65.69,84.69,65.69Z"/></svg>
+                    Discord
+                </a>
+                <a href="https://github.com/inei49984-ai" target="_blank" class="sns-card touch-target">
+                    <svg viewBox="0 0 98 96"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.261 33.4 46.754 2.443.453 3.332-.1 3.332-2.372 0-1.17-.04-4.269-.062-8.38-13.59 2.978-16.458-6.611-16.458-6.611-2.222-5.692-5.424-7.207-5.424-7.207-4.434-3.055.336-2.995.336-2.995 4.903.348 7.484 5.086 7.484 5.086 4.359 7.534 11.432 5.358 14.217 4.095.442-3.187 1.705-5.361 3.102-6.594-10.85-1.243-22.256-5.474-22.256-24.378 0-5.387 1.905-9.79 5.039-13.239-.504-1.25-2.184-6.269.477-13.06 0 0 4.113-1.328 13.473 5.068 3.908-1.096 8.099-1.644 12.263-1.663 4.159.019 8.354.567 12.27 1.663 9.347-6.396 13.447-5.068 13.447-5.068 2.67 6.791.99 11.81.487 13.06 3.14 3.449 5.033 7.852 5.033 13.239 0 18.952-11.425 23.121-22.31 24.339 1.756 1.527 3.322 4.529 3.322 9.127 0 6.591-.06 11.907-.06 13.525 0 2.292.876 4.861 3.364 4.374C84.025 89.467 98 70.97 98 49.217 98 22 76.155 0 48.854 0z"/></svg>
+                    GitHub
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- RAW Code Modal -->
+    <!-- RAW Modal -->
     <div class="ui-overlay" id="code-modal">
         <div class="ui-console">
             <div class="ui-header">
@@ -313,12 +591,30 @@
             <div class="code-block-wrapper">
                 <code id="code-target"></code>
             </div>
-            <button class="btn" id="btn-copy" style="width: 100%;">コピー</button>
+            <button class="btn-secondary touch-target" id="btn-copy" style="width: 100%;">コピー</button>
         </div>
     </div>
 
     <script>
-    /* SCRIPT DATA & ACTIONS (.lua保存対応) */
+    const SUN_SVG = '<path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>';
+    const MOON_SVG = '<path d="M12.3 2a10 10 0 0 0 9.7 12.8A10 10 0 1 1 12.3 2z"/>';
+
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const themeIcon = document.getElementById('theme-icon');
+
+    themeToggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        themeIcon.innerHTML = isLight ? MOON_SVG : SUN_SVG;
+    });
+
+    document.querySelectorAll('.touch-target').forEach(el => {
+        const removePressed = () => el.classList.remove('is-pressed');
+        el.addEventListener('touchstart', () => el.classList.add('is-pressed'), { passive: true });
+        el.addEventListener('touchend', removePressed);
+        el.addEventListener('touchcancel', removePressed);
+    });
+
     const LUA_FILES = {
         kyojin: {
             filename: '巨人の時代.lua',
@@ -344,7 +640,6 @@
         setTimeout(() => URL.revokeObjectURL(a.href), 100);
     }
 
-    /* Menu Control */
     const globalMenuBtn = document.getElementById('global-menu-btn');
     const uiOverlay = document.getElementById('ui-overlay');
     const uiCloseBtn = document.getElementById('ui-close-btn');
@@ -353,7 +648,6 @@
     uiCloseBtn.addEventListener('click', () => uiOverlay.classList.remove('open'));
     uiOverlay.addEventListener('click', e => { if (e.target === uiOverlay) uiOverlay.classList.remove('open'); });
 
-    /* RAW Code Control */
     const codeModal = document.getElementById('code-modal');
     const codeModalCloseBtn = document.getElementById('code-modal-close-btn');
     const codeTarget = document.getElementById('code-target');
@@ -384,7 +678,8 @@
     });
 
     document.querySelectorAll('.file-card-actions button').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
             const key = btn.getAttribute('data-file');
             const mode = btn.getAttribute('data-mode');
             if (mode === 'download') downloadLua(key);
