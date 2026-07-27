@@ -19,37 +19,27 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --------------------------------------------------
-           CSS Variables (初期値: ダークモード / 完全な黒と白)
-        -------------------------------------------------- */
         :root {
-            --bg-color: #000000;         /* 完全な黒 */
+            --bg-color: #000000;
             --header-border: #222222;
-            --logo-color: #ffffff;       /* 完全な白 */
-            --text-title: #ffffff;       /* 完全な白 */
-            --text-sub: #ffffff;         /* 完全な白 */
+            --logo-color: #ffffff;
+            --text-title: #ffffff;
+            --text-sub: #ffffff;
             --card-bg: #0d0d0d;
             --card-border: #222222;
             --card-hover-border: #555555;
             --link-bg: #111111;
             --link-border: #222222;
             --link-text: #ffffff;
-            
-            /* ダウンロードボタン（鮮やかな青） */
             --btn-dl-bg: #2563eb;
             --btn-dl-text: #ffffff;
             --btn-dl-hover: #1d4ed8;
-
-            /* サブボタン（RAW表示など） */
             --btn-sec-bg: #181818;
             --btn-sec-text: #ffffff;
             --btn-sec-border: #333333;
-
-            /* 全ゲーム対応バッジ（緑） */
             --badge-green-bg: rgba(34, 197, 94, 0.15);
             --badge-green-border: #22c55e;
             --badge-green-text: #4ade80;
-
             --overlay-bg: rgba(0, 0, 0, 0.85);
             --modal-bg: #0a0a0a;
             --modal-border: #222222;
@@ -60,9 +50,6 @@
             --icon-fill: #ffffff;
         }
 
-        /* --------------------------------------------------
-           ライトモード (白背景)
-        -------------------------------------------------- */
         body.light-mode {
             --bg-color: #ffffff;
             --header-border: #e5e5e5;
@@ -75,19 +62,15 @@
             --link-bg: #f0f0f0;
             --link-border: #e0e0e0;
             --link-text: #000000;
-            
             --btn-dl-bg: #2563eb;
             --btn-dl-text: #ffffff;
             --btn-dl-hover: #1d4ed8;
-
             --btn-sec-bg: #ffffff;
             --btn-sec-text: #000000;
             --btn-sec-border: #ccc;
-
             --badge-green-bg: #dcfce7;
             --badge-green-border: #86efac;
             --badge-green-text: #15803d;
-
             --overlay-bg: rgba(255, 255, 255, 0.85);
             --modal-bg: #ffffff;
             --modal-border: #e5e5e5;
@@ -108,7 +91,6 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* ヘッダー */
         .header {
             width: 100%;
             padding: 24px 32px;
@@ -131,7 +113,6 @@
             gap: 12px;
         }
 
-        /* テーマ切り替えボタン */
         .theme-toggle-btn {
             width: 40px;
             height: 40px;
@@ -157,7 +138,6 @@
             transform: scale(0.92);
         }
 
-        /* 三本線メニューボタン */
         .header-menu-btn {
             width: 40px;
             height: 40px;
@@ -196,7 +176,6 @@
             }
         }
 
-        /* メインコンテンツ */
         .container {
             max-width: 800px;
             width: 100%;
@@ -219,7 +198,6 @@
             line-height: 1.6;
         }
 
-        /* ファイルカード一覧 */
         .file-list {
             display: flex;
             flex-direction: column;
@@ -260,7 +238,6 @@
             color: var(--text-title);
         }
 
-        /* Roblox リンクデザイン */
         .game-link {
             display: inline-flex;
             align-items: center;
@@ -296,7 +273,6 @@
             flex-wrap: wrap;
         }
 
-        /* ダウンロードボタン（青） */
         .btn-download {
             background: var(--btn-dl-bg);
             color: var(--btn-dl-text);
@@ -327,7 +303,6 @@
             }
         }
 
-        /* サブボタン（RAW表示など） */
         .btn-secondary {
             background: var(--btn-sec-bg);
             color: var(--btn-sec-text);
@@ -352,7 +327,6 @@
             }
         }
 
-        /* 全ゲーム対応バッジ（緑チェックマーク付き） */
         .badge-all-games {
             display: inline-flex;
             align-items: center;
@@ -372,7 +346,6 @@
             fill: currentColor;
         }
 
-        /* モーダル */
         .ui-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -436,7 +409,6 @@
             color: var(--text-title);
         }
 
-        /* 利用規約本文スタイル */
         .terms-content {
             font-size: 13px;
             color: var(--text-sub);
@@ -468,10 +440,9 @@
         .terms-content strong.warning-text {
             display: block;
             margin-top: 8px;
-            color: #ef4444; /* 見やすい警告色（赤系） */
+            color: #ef4444;
         }
 
-        /* チェックボックスエリア */
         .terms-checkbox-label {
             display: flex;
             align-items: center;
@@ -498,7 +469,6 @@
             flex: 1;
         }
 
-        /* SNSカード */
         .sns-link-list {
             display: flex;
             flex-direction: column;
@@ -558,7 +528,6 @@
             -webkit-user-select: text;
         }
 
-        /* フッター */
         .footer {
             padding: 32px;
             text-align: center;
@@ -639,13 +608,11 @@
         </div>
     </main>
 
-    <!-- フッター -->
     <footer class="footer">
         <div>© slcdax</div>
         <button class="terms-link-btn" id="terms-open-btn">利用規約</button>
     </footer>
 
-    <!-- 利用規約 Modal -->
     <div class="ui-overlay" id="terms-modal">
         <div class="ui-console">
             <div class="ui-header">
@@ -654,25 +621,15 @@
             </div>
             <div class="terms-content">
                 <p>本Webサイトで配布されているスクリプト（以下「本スクリプト」）のご利用にあたり、以下の利用規約（以下「本規約」）を必ずお読みください。</p>
-                
                 <p>本スクリプトをダウンロード、または使用した時点で、本規約のすべての内容に同意したものとみなします。</p>
-                
                 <strong class="warning-text">※ 本規約に同意いただけない場合は、本スクリプトおよび本Webサイトを利用しないでください（直ちに利用をおやめください）。</strong>
-
                 <h4>1. 免責事項</h4>
-                <p>本スクリプトの使用に伴い発生したアカウントの停止・永久追放（BAN）、データ損失、その他いかなる損害や不利益についても、当方は一切の責任を負いません。<br>
-                すべて利用者ご自身の自己責任においてご使用ください。</p>
-
+                <p>本スクリプトの使用に伴い発生したアカウントの停止・永久追放（BAN）、データ損失、その他いかなる損害や不利益についても、当方は一切の責任を負いません。<br>すべて利用者ご自身の自己責任においてご使用ください。</p>
                 <h4>2. 規約遵守のお願いと非推奨事項</h4>
-                <p>当方は、ゲーム内におけるチート行為やプラットフォームの利用規約違反を推奨・助長するものではありません。<br>
-                Roblox利用規約および各ゲームのガイドラインに則り、健全かつ適切なプレイを心がけてください。</p>
-
+                <p>当方は、ゲーム内におけるチート行為やプラットフォームの利用規約違反を推奨・助長するものではありません。<br>Roblox利用規約および各ゲームのガイドラインに則り、健全かつ適切なプレイを心がけてください。</p>
                 <h4>3. リスクについての注意事項</h4>
-                <p>不正ツールの使用は、Robloxアカウントが制限または永久的に追放される重大なリスクを伴います。<br>
-                その旨を十分に理解した上でご利用ください。</p>
+                <p>不正ツールの使用は、Robloxアカウントが制限または永久的に追放される重大なリスクを伴います。<br>その旨を十分に理解した上でご利用ください。</p>
             </div>
-
-            <!-- 同意操作エリア -->
             <div id="terms-action-area" style="display: none;">
                 <label class="terms-checkbox-label">
                     <input type="checkbox" id="terms-checkbox">
@@ -686,7 +643,6 @@
         </div>
     </div>
 
-    <!-- SNS Modal -->
     <div class="ui-overlay" id="ui-overlay">
         <div class="ui-console">
             <div class="ui-header">
@@ -706,7 +662,6 @@
         </div>
     </div>
 
-    <!-- RAW Modal -->
     <div class="ui-overlay" id="code-modal">
         <div class="ui-console">
             <div class="ui-header">
@@ -765,7 +720,6 @@
         setTimeout(() => URL.revokeObjectURL(a.href), 100);
     }
 
-    /* メニューモーダル */
     const globalMenuBtn = document.getElementById('global-menu-btn');
     const uiOverlay = document.getElementById('ui-overlay');
     const uiCloseBtn = document.getElementById('ui-close-btn');
@@ -774,7 +728,6 @@
     uiCloseBtn.addEventListener('click', () => uiOverlay.classList.remove('open'));
     uiOverlay.addEventListener('click', e => { if (e.target === uiOverlay) uiOverlay.classList.remove('open'); });
 
-    /* 利用規約モーダル処理 */
     const termsOpenBtn = document.getElementById('terms-open-btn');
     const termsModal = document.getElementById('terms-modal');
     const termsModalCloseBtn = document.getElementById('terms-modal-close-btn');
@@ -783,12 +736,11 @@
     const termsAgreeBtn = document.getElementById('terms-agree-btn');
     const termsDeclineBtn = document.getElementById('terms-decline-btn');
 
-    let pendingAction = null; // 同意後に実行するアクションを保持
-    let isAgreed = false;     // 同意フラグ（初期値: false）
+    let pendingAction = null;
+    let isAgreed = localStorage.getItem('terms_agreed') === 'true';
 
-    // フッターの利用規約クリック（閲覧専用）
     termsOpenBtn.addEventListener('click', () => {
-        termsActionArea.style.display = 'none'; // 同意チェック・ボタンエリアを非表示
+        termsActionArea.style.display = 'none';
         termsModal.classList.add('open');
     });
 
@@ -800,29 +752,27 @@
     termsModalCloseBtn.addEventListener('click', closeTermsModal);
     termsModal.addEventListener('click', e => { if (e.target === termsModal) closeTermsModal(); });
 
-    // チェックボックスの状態に合わせて「同意する」ボタンの有効/無効を切り替え
     termsCheckbox.addEventListener('change', () => {
         termsAgreeBtn.disabled = !termsCheckbox.checked;
     });
 
-    // 「同意しない」ボタンを押したとき（モーダルを閉じる ＆ 同意フラグを未同意のままクリア）
     termsDeclineBtn.addEventListener('click', () => {
         isAgreed = false;
+        localStorage.removeItem('terms_agreed');
         closeTermsModal();
     });
 
-    // 「同意する」ボタンを押したとき
     termsAgreeBtn.addEventListener('click', () => {
         if (!termsCheckbox.checked) return;
-        isAgreed = true; // 同意状態にする
+        isAgreed = true;
+        localStorage.setItem('terms_agreed', 'true');
         termsModal.classList.remove('open');
         if (pendingAction) {
-            pendingAction(); // 保留していたダウンロード/RAW表示を実行
+            pendingAction();
             pendingAction = null;
         }
     });
 
-    /* Code表示モーダル */
     const codeModal = document.getElementById('code-modal');
     const codeModalCloseBtn = document.getElementById('code-modal-close-btn');
     const codeTarget = document.getElementById('code-target');
@@ -852,7 +802,6 @@
         });
     });
 
-    // ダウンロード / RAW表示 ボタンクリック時の判定
     document.querySelectorAll('.file-card-actions button').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -865,10 +814,8 @@
             };
 
             if (isAgreed) {
-                // 「同意する」を押したことがある場合はそのまま実行
                 action();
             } else {
-                // 未同意（または「同意しない」を押した場合）は毎回モーダルを表示
                 pendingAction = action;
                 termsCheckbox.checked = false;
                 termsAgreeBtn.disabled = true;
