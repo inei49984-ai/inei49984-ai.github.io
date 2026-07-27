@@ -107,11 +107,23 @@
             border-bottom: 1px solid var(--header-border);
         }
 
+        /* ロゴ部分 */
         .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 20px;
             font-weight: 800;
             letter-spacing: -0.5px;
             color: var(--logo-color);
+        }
+
+        .header-logo-icon {
+            width: 28px;
+            height: 28px;
+            fill: none;
+            stroke: var(--logo-color);
+            flex-shrink: 0;
         }
 
         .header-right {
@@ -590,7 +602,23 @@
 <body>
 
     <header class="header">
-        <div class="header-logo">slcdax</div>
+        <div class="header-logo">
+            <!-- 円形ロゴSVG -->
+            <svg class="header-logo-icon" viewBox="0 0 100 100">
+                <!-- 外側の円 -->
+                <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="6" fill="none" />
+                <!-- 内部のSLCDAXロゴデザイン (パス表記) -->
+                <g fill="currentColor" stroke="none">
+                    <path d="M 33 34 C 28 34, 25 37, 25 41 C 25 48, 43 45, 43 54 C 43 61, 35 63, 29 63 C 24 63, 19 61, 16 57 L 20 52 C 23 55, 26 57, 30 57 C 34 57, 36 55, 36 53 C 36 47, 18 50, 18 40 C 18 33, 25 28, 33 28 C 38 28, 42 30, 45 33 L 41 38 C 38 35, 35 34, 33 34 Z"/>
+                    <path d="M 40 35 L 46 35 L 46 58 L 56 58 L 56 63 L 40 63 Z"/>
+                    <path d="M 52 35 C 57 35, 62 38, 62 44 C 62 48, 59 51, 55 52 L 63 63 L 56 63 L 49 53 L 49 63 L 44 63 L 44 35 Z M 49 40 L 49 48 L 52 48 C 55 48, 57 46, 57 44 C 57 42, 55 40, 52 40 Z"/>
+                    <path d="M 64 35 L 70 35 L 75 46 L 80 35 L 86 35 L 78 49 L 86 63 L 80 63 L 75 52 L 70 63 L 64 63 L 72 49 Z"/>
+                    <!-- 下部の「SLCDAX」テキスト -->
+                    <text x="50" y="77" font-size="10" font-weight="900" font-family="'Inter', sans-serif" text-anchor="middle" letter-spacing="1">SLCDAX</text>
+                </g>
+            </svg>
+            slcdax
+        </div>
         <div class="header-right">
             <button class="lang-toggle-btn touch-target" id="lang-toggle-btn" title="Language">JA</button>
             <button class="theme-toggle-btn touch-target" id="theme-toggle-btn" title="テーマ切り替え">
@@ -791,14 +819,12 @@
         try {
             const res = await fetch('https://ipapi.co/json/');
             const data = await res.json();
-            // 日本以外からのアクセスは英語にする
             if (data.country_code === 'JP') {
                 setLanguage('ja');
             } else {
                 setLanguage('en');
             }
         } catch (e) {
-            // APIエラー時のフォールバック (ブラウザ言語を参照)
             const userLang = navigator.language || navigator.userLanguage;
             if (userLang.startsWith('ja')) {
                 setLanguage('ja');
@@ -808,14 +834,12 @@
         }
     }
 
-    // 言語切り替えボタンイベント
     document.getElementById('lang-toggle-btn').addEventListener('click', () => {
         const newLang = currentLang === 'ja' ? 'en' : 'ja';
         localStorage.setItem('user_lang', newLang);
         setLanguage(newLang);
     });
 
-    // 右クリック／長押し時のコンテキストメニューの抑止
     document.querySelectorAll('a').forEach(anchor => {
         anchor.addEventListener('contextmenu', (e) => {
             e.preventDefault();
@@ -971,7 +995,6 @@
         });
     });
 
-    // 初期化実行
     initLanguage();
     </script>
 </body>
