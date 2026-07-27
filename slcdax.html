@@ -672,7 +672,7 @@
                 その旨を十分に理解した上でご利用ください。</p>
             </div>
 
-            <!-- 同意操作エリア（初回ダウンロード/RAW表示時のみ有効化） -->
+            <!-- 同意操作エリア -->
             <div id="terms-action-area" style="display: none;">
                 <label class="terms-checkbox-label">
                     <input type="checkbox" id="terms-checkbox">
@@ -784,6 +784,7 @@
     const termsDeclineBtn = document.getElementById('terms-decline-btn');
 
     let pendingAction = null; // 同意後に実行するアクションを保持
+    let isAgreed = false;     // 同意フラグ（初期値: false）
 
     // フッターの利用規約クリック（閲覧専用）
     termsOpenBtn.addEventListener('click', () => {
@@ -804,13 +805,16 @@
         termsAgreeBtn.disabled = !termsCheckbox.checked;
     });
 
-    // 「同意しない」ボタンを押したとき（モーダルを閉じて元画面へ戻る）
-    termsDeclineBtn.addEventListener('click', closeTermsModal);
+    // 「同意しない」ボタンを押したとき（モーダルを閉じる ＆ 同意フラグを未同意のままクリア）
+    termsDeclineBtn.addEventListener('click', () => {
+        isAgreed = false;
+        closeTermsModal();
+    });
 
     // 「同意する」ボタンを押したとき
     termsAgreeBtn.addEventListener('click', () => {
         if (!termsCheckbox.checked) return;
-        localStorage.setItem('slcdax_terms_agreed', 'true'); // デバイスに記録
+        isAgreed = true; // 同意状態にする
         termsModal.classList.remove('open');
         if (pendingAction) {
             pendingAction(); // 保留していたダウンロード/RAW表示を実行
@@ -860,19 +864,16 @@
                 else if (mode === 'raw') openCodeModal(key);
             };
 
-            // 利用規約に同意済みかチェック
-            const isAgreed = localStorage.getItem('slcdax_terms_agreed') === 'true';
-
             if (isAgreed) {
-                // 同意済みの場合はそのまま実行
+                // 「同意する」を押したことがある場合はそのまま実行
                 action();
             } else {
-                // 未同意の場合はフォームを初期化して利用規約モーダルを表示
+                // 未同意（または「同意しない」を押した場合）は毎回モーダルを表示
                 pendingAction = action;
                 termsCheckbox.checked = false;
                 termsAgreeBtn.disabled = true;
                 termsActionArea.style.display = 'block';
-                termsModal.classList.open ? null : termsModal.classList.add('open');
+                termsModal.classList.add('open');
             }
         });
     });
