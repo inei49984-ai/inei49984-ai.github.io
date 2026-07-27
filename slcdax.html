@@ -309,14 +309,19 @@
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .btn-download:active,
-        .btn-download.is-pressed {
+        .btn-download:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .btn-download:not(:disabled):active,
+        .btn-download:not(:disabled).is-pressed {
             transform: scale(0.95);
             opacity: 0.9;
         }
 
         @media (hover: hover) {
-            .btn-download:hover {
+            .btn-download:not(:disabled):hover {
                 background: var(--btn-dl-hover);
                 border-color: var(--btn-dl-hover);
             }
@@ -436,23 +441,61 @@
             font-size: 13px;
             color: var(--text-sub);
             line-height: 1.7;
-            max-height: 60vh;
+            max-height: 45vh;
             overflow-y: auto;
             padding-right: 8px;
+            margin-bottom: 16px;
             user-select: text;
             -webkit-user-select: text;
+        }
+
+        .terms-content p {
+            margin-bottom: 12px;
         }
 
         .terms-content h4 {
             font-size: 13px;
             font-weight: 600;
             color: var(--text-title);
-            margin-top: 14px;
-            margin-bottom: 4px;
+            margin-top: 16px;
+            margin-bottom: 6px;
         }
 
         .terms-content h4:first-child {
             margin-top: 0;
+        }
+
+        .terms-content strong.warning-text {
+            display: block;
+            margin-top: 8px;
+            color: #ef4444; /* 見やすい警告色（赤系） */
+        }
+
+        /* チェックボックスエリア */
+        .terms-checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-title);
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+
+        .terms-checkbox-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--btn-dl-bg);
+        }
+
+        .terms-btn-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .terms-btn-group button {
+            flex: 1;
         }
 
         /* SNSカード */
@@ -610,16 +653,35 @@
                 <button class="ui-close-btn" id="terms-modal-close-btn">✕</button>
             </div>
             <div class="terms-content">
-                <p>本Webサイトで配布されているスクリプト（以下「本スクリプト」）のご利用にあたり、以下の利用規約（以下「本規約」）を必ずお読みください。本スクリプトをダウンロードまたは使用した時点で、本規約に同意したものとみなします。</p>
+                <p>本Webサイトで配布されているスクリプト（以下「本スクリプト」）のご利用にあたり、以下の利用規約（以下「本規約」）を必ずお読みください。</p>
                 
+                <p>本スクリプトをダウンロード、または使用した時点で、本規約のすべての内容に同意したものとみなします。</p>
+                
+                <strong class="warning-text">※ 本規約に同意いただけない場合は、本スクリプトおよび本Webサイトを利用しないでください（直ちに利用をおやめください）。</strong>
+
                 <h4>1. 免責事項</h4>
-                <p>本スクリプトの使用に伴い発生したアカウントの停止・永久追放（BAN）、データ損失、その他いかなる損害や不利益についても、当方は一切の責任を負いません。すべて利用者ご自身の自己責任においてご使用ください。</p>
-                
+                <p>本スクリプトの使用に伴い発生したアカウントの停止・永久追放（BAN）、データ損失、その他いかなる損害や不利益についても、当方は一切の責任を負いません。<br>
+                すべて利用者ご自身の自己責任においてご使用ください。</p>
+
                 <h4>2. 規約遵守のお願いと非推奨事項</h4>
-                <p>当方は、ゲーム内におけるチート行為やプラットフォームの利用規約違反を推奨・助長するものではありません。Roblox利用規約および各ゲームのガイドラインに則り、健全かつ適切なプレイを心がけてください。</p>
+                <p>当方は、ゲーム内におけるチート行為やプラットフォームの利用規約違反を推奨・助長するものではありません。<br>
+                Roblox利用規約および各ゲームのガイドラインに則り、健全かつ適切なプレイを心がけてください。</p>
 
                 <h4>3. リスクについての注意事項</h4>
-                <p>不正ツールの使用は、Robloxアカウントが制限または永久的に追放される重大なリスクを伴います。その旨を十分に理解した上でご利用ください。</p>
+                <p>不正ツールの使用は、Robloxアカウントが制限または永久的に追放される重大なリスクを伴います。<br>
+                その旨を十分に理解した上でご利用ください。</p>
+            </div>
+
+            <!-- 同意操作エリア（初回ダウンロード/RAW表示時のみ有効化） -->
+            <div id="terms-action-area" style="display: none;">
+                <label class="terms-checkbox-label">
+                    <input type="checkbox" id="terms-checkbox">
+                    <span>利用規約に同意します</span>
+                </label>
+                <div class="terms-btn-group">
+                    <button class="btn-secondary touch-target" id="terms-decline-btn">同意しない</button>
+                    <button class="btn-download touch-target" id="terms-agree-btn" disabled>同意する</button>
+                </div>
             </div>
         </div>
     </div>
@@ -712,14 +774,49 @@
     uiCloseBtn.addEventListener('click', () => uiOverlay.classList.remove('open'));
     uiOverlay.addEventListener('click', e => { if (e.target === uiOverlay) uiOverlay.classList.remove('open'); });
 
-    /* 利用規約モーダル */
+    /* 利用規約モーダル処理 */
     const termsOpenBtn = document.getElementById('terms-open-btn');
     const termsModal = document.getElementById('terms-modal');
     const termsModalCloseBtn = document.getElementById('terms-modal-close-btn');
+    const termsActionArea = document.getElementById('terms-action-area');
+    const termsCheckbox = document.getElementById('terms-checkbox');
+    const termsAgreeBtn = document.getElementById('terms-agree-btn');
+    const termsDeclineBtn = document.getElementById('terms-decline-btn');
 
-    termsOpenBtn.addEventListener('click', () => termsModal.classList.add('open'));
-    termsModalCloseBtn.addEventListener('click', () => termsModal.classList.remove('open'));
-    termsModal.addEventListener('click', e => { if (e.target === termsModal) termsModal.classList.remove('open'); });
+    let pendingAction = null; // 同意後に実行するアクションを保持
+
+    // フッターの利用規約クリック（閲覧専用）
+    termsOpenBtn.addEventListener('click', () => {
+        termsActionArea.style.display = 'none'; // 同意チェック・ボタンエリアを非表示
+        termsModal.classList.add('open');
+    });
+
+    const closeTermsModal = () => {
+        termsModal.classList.remove('open');
+        pendingAction = null;
+    };
+
+    termsModalCloseBtn.addEventListener('click', closeTermsModal);
+    termsModal.addEventListener('click', e => { if (e.target === termsModal) closeTermsModal(); });
+
+    // チェックボックスの状態に合わせて「同意する」ボタンの有効/無効を切り替え
+    termsCheckbox.addEventListener('change', () => {
+        termsAgreeBtn.disabled = !termsCheckbox.checked;
+    });
+
+    // 「同意しない」ボタンを押したとき（モーダルを閉じて元画面へ戻る）
+    termsDeclineBtn.addEventListener('click', closeTermsModal);
+
+    // 「同意する」ボタンを押したとき
+    termsAgreeBtn.addEventListener('click', () => {
+        if (!termsCheckbox.checked) return;
+        localStorage.setItem('slcdax_terms_agreed', 'true'); // デバイスに記録
+        termsModal.classList.remove('open');
+        if (pendingAction) {
+            pendingAction(); // 保留していたダウンロード/RAW表示を実行
+            pendingAction = null;
+        }
+    });
 
     /* Code表示モーダル */
     const codeModal = document.getElementById('code-modal');
@@ -751,13 +848,32 @@
         });
     });
 
+    // ダウンロード / RAW表示 ボタンクリック時の判定
     document.querySelectorAll('.file-card-actions button').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
             const key = btn.getAttribute('data-file');
             const mode = btn.getAttribute('data-mode');
-            if (mode === 'download') downloadLua(key);
-            else if (mode === 'raw') openCodeModal(key);
+
+            const action = () => {
+                if (mode === 'download') downloadLua(key);
+                else if (mode === 'raw') openCodeModal(key);
+            };
+
+            // 利用規約に同意済みかチェック
+            const isAgreed = localStorage.getItem('slcdax_terms_agreed') === 'true';
+
+            if (isAgreed) {
+                // 同意済みの場合はそのまま実行
+                action();
+            } else {
+                // 未同意の場合はフォームを初期化して利用規約モーダルを表示
+                pendingAction = action;
+                termsCheckbox.checked = false;
+                termsAgreeBtn.disabled = true;
+                termsActionArea.style.display = 'block';
+                termsModal.classList.open ? null : termsModal.classList.add('open');
+            }
         });
     });
     </script>
