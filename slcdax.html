@@ -91,7 +91,7 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* リンク要素の長押しメニュー（ポップアップ）を無効化 */
+        /* リンク要素の長押しメニューを無効化 */
         a {
             -webkit-touch-callout: none !important;
             -webkit-user-select: none !important;
@@ -118,6 +118,28 @@
             display: flex;
             align-items: center;
             gap: 12px;
+        }
+
+        /* 言語切り替えボタン */
+        .lang-toggle-btn {
+            height: 40px;
+            padding: 0 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-title);
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .lang-toggle-btn:active,
+        .lang-toggle-btn.is-pressed {
+            transform: scale(0.92);
         }
 
         .theme-toggle-btn {
@@ -174,6 +196,7 @@
         }
 
         @media (hover: hover) {
+            .lang-toggle-btn:hover,
             .theme-toggle-btn:hover,
             .header-menu-btn:hover {
                 border-color: var(--card-hover-border);
@@ -569,6 +592,7 @@
     <header class="header">
         <div class="header-logo">slcdax</div>
         <div class="header-right">
+            <button class="lang-toggle-btn touch-target" id="lang-toggle-btn" title="Language">JA</button>
             <button class="theme-toggle-btn touch-target" id="theme-toggle-btn" title="テーマ切り替え">
                 <svg id="theme-icon" viewBox="0 0 24 24">
                     <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
@@ -584,33 +608,33 @@
 
     <main class="container">
         <h1 class="hero-title">Script</h1>
-        <p class="site-description">ineiにより作成されたscriptを配布しています。</p>
+        <p class="site-description" id="site-desc">ineiにより作成されたscriptを配布しています。</p>
 
         <div class="file-list">
             <div class="file-card touch-target">
                 <div class="file-info">
-                    <div class="file-card-title">巨人の時代（ゴジラのゲーム）script</div>
+                    <div class="file-card-title" id="title-kyojin">巨人の時代（ゴジラのゲーム）script</div>
                 </div>
                 <a class="game-link" href="https://www.roblox.com/ja/games/89851325271396/Age-of-Titans" target="_blank">
                     <svg viewBox="0 0 24 24"><path d="M18.926 23.843 0 18.927 5.075 0l18.925 4.916-5.074 18.927zM9.38 10.153l1.229 4.73 4.73-1.229-1.229-4.73-4.73 1.229z"/></svg>
                     https://www.roblox.com/ja/games/89851325271396/Age-of-Titans
                 </a>
                 <div class="file-card-actions">
-                    <button class="btn-download touch-target" data-file="kyojin" data-mode="download">ダウンロード</button>
-                    <button class="btn-secondary touch-target" data-file="kyojin" data-mode="raw">RAW表示</button>
+                    <button class="btn-download touch-target btn-dl-text" data-file="kyojin" data-mode="download">ダウンロード</button>
+                    <button class="btn-secondary touch-target btn-raw-text" data-file="kyojin" data-mode="raw">RAW表示</button>
                 </div>
             </div>
 
             <div class="file-card touch-target">
                 <div class="file-info">
-                    <div class="file-card-title">増殖アイテム</div>
+                    <div class="file-card-title" id="title-zoshoku">増殖アイテム</div>
                 </div>
                 <div class="file-card-actions">
-                    <button class="btn-download touch-target" data-file="zoshoku" data-mode="download">ダウンロード</button>
-                    <button class="btn-secondary touch-target" data-file="zoshoku" data-mode="raw">RAW表示</button>
+                    <button class="btn-download touch-target btn-dl-text" data-file="zoshoku" data-mode="download">ダウンロード</button>
+                    <button class="btn-secondary touch-target btn-raw-text" data-file="zoshoku" data-mode="raw">RAW表示</button>
                     <span class="badge-all-games">
                         <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                        全ゲーム対応
+                        <span id="badge-all-text">全ゲーム対応</span>
                     </span>
                 </div>
             </div>
@@ -625,24 +649,16 @@
     <div class="ui-overlay" id="terms-modal">
         <div class="ui-console">
             <div class="ui-header">
-                <span class="ui-title">利用規約</span>
+                <span class="ui-title" id="terms-modal-title">利用規約</span>
                 <button class="ui-close-btn" id="terms-modal-close-btn">✕</button>
             </div>
-            <div class="terms-content">
-                <p>本Webサイトで配布されているスクリプト（以下「本スクリプト」）のご利用にあたり、以下の利用規約（以下「本規約」）を必ずお読みください。</p>
-                <p>本スクリプトをダウンロード、または使用した時点で、本規約のすべての内容に同意したものとみなします。</p>
-                <strong class="warning-text">※ 本規約に同意いただけない場合は、本スクリプトおよび本Webサイトを利用しないでください（直ちに利用をおやめください）。</strong>
-                <h4>1. 免責事項</h4>
-                <p>本スクリプトの使用に伴い発生したアカウントの停止・永久追放（BAN）、データ損失、その他いかなる損害や不利益についても、当方は一切の責任を負いません。<br>すべて利用者ご自身の自己責任においてご使用ください。</p>
-                <h4>2. 規約遵守のお願いと非推奨事項</h4>
-                <p>当方は、ゲーム内におけるチート行為やプラットフォームの利用規約違反を推奨・助長するものではありません。<br>Roblox利用規約および各ゲームのガイドラインに則り、健全かつ適切なプレイを心がけてください。</p>
-                <h4>3. リスクについての注意事項</h4>
-                <p>不正ツールの使用は、Robloxアカウントが制限または永久的に追放される重大なリスクを伴います。<br>その旨を十分に理解した上でご利用ください。</p>
+            <div class="terms-content" id="terms-content-body">
+                <!-- JSで動的切替 -->
             </div>
             <div id="terms-action-area" style="display: none;">
                 <label class="terms-checkbox-label">
                     <input type="checkbox" id="terms-checkbox">
-                    <span>利用規約に同意します</span>
+                    <span id="terms-agree-checkbox-label">利用規約に同意します</span>
                 </label>
                 <div class="terms-btn-group">
                     <button class="btn-secondary touch-target" id="terms-decline-btn">同意しない</button>
@@ -685,7 +701,121 @@
     </div>
 
     <script>
-    // 右クリック／長押し時のコンテキストメニューをJavaScript側でも直接抑止
+    // --- 言語データ (i18n) ---
+    const TRANSLATIONS = {
+        ja: {
+            siteDesc: "ineiにより作成されたscriptを配布しています。",
+            titleKyojin: "巨人の時代（ゴジラのゲーム）script",
+            titleZoshoku: "増殖アイテム",
+            btnDl: "ダウンロード",
+            btnRaw: "RAW表示",
+            badgeAll: "全ゲーム対応",
+            termsBtn: "利用規約",
+            termsTitle: "利用規約",
+            termsAgreeLabel: "利用規約に同意します",
+            btnDecline: "同意しない",
+            btnAgree: "同意する",
+            btnCopy: "コピー",
+            btnCopied: "コピー完了！",
+            termsHtml: `
+                <p>本Webサイトで配布されているスクリプト（以下「本スクリプト」）のご利用にあたり、以下の利用規約（以下「本規約」）を必ずお読みください。</p>
+                <p>本スクリプトをダウンロード、または使用した時点で、本規約のすべての内容に同意したものとみなします。</p>
+                <strong class="warning-text">※ 本規約に同意いただけない場合は、本スクリプトおよび本Webサイトを利用しないでください（直ちに利用をおやめください）。</strong>
+                <h4>1. 免責事項</h4>
+                <p>本スクリプトの使用に伴い発生したアカウントの停止・永久追放（BAN）、データ損失、その他いかなる損害や不利益についても、当方は一切の責任を負いません。<br>すべて利用者ご自身の自己責任においてご使用ください。</p>
+                <h4>2. 規約遵守のお願いと非推奨事項</h4>
+                <p>当方は、ゲーム内におけるチート行為やプラットフォームの利用規約違反を推奨・助長するものではありません。<br>Roblox利用規約および各ゲームのガイドラインに則り、健全かつ適切なプレイを心がけてください。</p>
+                <h4>3. リスクについての注意事項</h4>
+                <p>不正ツールの使用は、Robloxアカウントが制限または永久的に追放される重大なリスクを伴います。<br>その旨を十分に理解した上でご利用ください。</p>
+            `
+        },
+        en: {
+            siteDesc: "Distributing scripts created by inei.",
+            titleKyojin: "Age of Titans (Godzilla Game) Script",
+            titleZoshoku: "Duplication Item Script",
+            btnDl: "Download",
+            btnRaw: "RAW View",
+            badgeAll: "All Games Supported",
+            termsBtn: "Terms of Service",
+            termsTitle: "Terms of Service",
+            termsAgreeLabel: "I agree to the Terms of Service",
+            btnDecline: "Decline",
+            btnAgree: "Agree",
+            btnCopy: "Copy",
+            btnCopied: "Copied!",
+            termsHtml: `
+                <p>Please read these Terms of Service ("Terms") carefully before using the scripts distributed on this website ("Scripts").</p>
+                <p>By downloading or using the Scripts, you agree to be bound by all the terms and conditions outlined herein.</p>
+                <strong class="warning-text">※ If you do not agree to these Terms, please do not use the Scripts or this website.</strong>
+                <h4>1. Disclaimer</h4>
+                <p>We take no responsibility for any account bans, suspensions, data loss, or other damages caused by the use of the Scripts.<br>Use them entirely at your own risk.</p>
+                <h4>2. Fair Play & Non-Encouragement</h4>
+                <p>We do not encourage or promote cheating or violations of platform policies.<br>Please adhere to Roblox Terms of Use and game guidelines for appropriate gameplay.</p>
+                <h4>3. Risk Warning</h4>
+                <p>Using unauthorized third-party tools carries a high risk of account restriction or permanent termination.<br>Ensure you fully understand these risks before proceeding.</p>
+            `
+        }
+    };
+
+    let currentLang = 'ja';
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        const t = TRANSLATIONS[lang];
+
+        document.getElementById('lang-toggle-btn').textContent = lang.toUpperCase();
+        document.getElementById('site-desc').textContent = t.siteDesc;
+        document.getElementById('title-kyojin').textContent = t.titleKyojin;
+        document.getElementById('title-zoshoku').textContent = t.titleZoshoku;
+        document.getElementById('badge-all-text').textContent = t.badgeAll;
+        document.getElementById('terms-open-btn').textContent = t.termsBtn;
+        document.getElementById('terms-modal-title').textContent = t.termsTitle;
+        document.getElementById('terms-agree-checkbox-label').textContent = t.termsAgreeLabel;
+        document.getElementById('terms-decline-btn').textContent = t.btnDecline;
+        document.getElementById('terms-agree-btn').textContent = t.btnAgree;
+        document.getElementById('terms-content-body').innerHTML = t.termsHtml;
+        document.getElementById('btn-copy').textContent = t.btnCopy;
+
+        document.querySelectorAll('.btn-dl-text').forEach(btn => btn.textContent = t.btnDl);
+        document.querySelectorAll('.btn-raw-text').forEach(btn => btn.textContent = t.btnRaw);
+    }
+
+    // --- 自動アクセス地域判定 ---
+    async function initLanguage() {
+        const savedLang = localStorage.getItem('user_lang');
+        if (savedLang) {
+            setLanguage(savedLang);
+            return;
+        }
+
+        try {
+            const res = await fetch('https://ipapi.co/json/');
+            const data = await res.json();
+            // 日本以外からのアクセスは英語にする
+            if (data.country_code === 'JP') {
+                setLanguage('ja');
+            } else {
+                setLanguage('en');
+            }
+        } catch (e) {
+            // APIエラー時のフォールバック (ブラウザ言語を参照)
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('ja')) {
+                setLanguage('ja');
+            } else {
+                setLanguage('en');
+            }
+        }
+    }
+
+    // 言語切り替えボタンイベント
+    document.getElementById('lang-toggle-btn').addEventListener('click', () => {
+        const newLang = currentLang === 'ja' ? 'en' : 'ja';
+        localStorage.setItem('user_lang', newLang);
+        setLanguage(newLang);
+    });
+
+    // 右クリック／長押し時のコンテキストメニューの抑止
     document.querySelectorAll('a').forEach(anchor => {
         anchor.addEventListener('contextmenu', (e) => {
             e.preventDefault();
@@ -805,7 +935,7 @@
 
     function closeCodeModal() {
         codeModal.classList.remove('open');
-        btnCopy.textContent = 'コピー';
+        btnCopy.textContent = TRANSLATIONS[currentLang].btnCopy;
     }
 
     codeModalCloseBtn.addEventListener('click', closeCodeModal);
@@ -813,8 +943,8 @@
 
     btnCopy.addEventListener('click', () => {
         navigator.clipboard.writeText(codeTarget.textContent).then(() => {
-            btnCopy.textContent = 'コピー完了！';
-            setTimeout(() => btnCopy.textContent = 'コピー', 2000);
+            btnCopy.textContent = TRANSLATIONS[currentLang].btnCopied;
+            setTimeout(() => btnCopy.textContent = TRANSLATIONS[currentLang].btnCopy, 2000);
         });
     });
 
@@ -840,6 +970,9 @@
             }
         });
     });
+
+    // 初期化実行
+    initLanguage();
     </script>
 </body>
 </html>
