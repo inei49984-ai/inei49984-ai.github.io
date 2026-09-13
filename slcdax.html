@@ -651,6 +651,16 @@
                     </span>
                 </div>
             </div>
+
+            <div class="file-card touch-target">
+                <div class="file-info">
+                    <div class="file-card-title" id="title-steal-egg-hop">steal egg hop</div>
+                </div>
+                <div class="file-card-actions">
+                    <button class="btn-download touch-target btn-dl-text" data-file="steal_egg_hop" data-mode="download">ダウンロード</button>
+                    <button class="btn-secondary touch-target btn-raw-text" data-file="steal_egg_hop" data-mode="raw">RAW表示</button>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -717,6 +727,7 @@
             siteDesc: "ineiにより作成されたscriptを配布しています。",
             titleKyojin: "巨人の時代（ゴジラのゲーム）script",
             titleZoshoku: "増殖アイテム",
+            titleStealEggHop: "steal egg hop",
             btnDl: "ダウンロード",
             btnRaw: "RAW表示",
             badgeAll: "全ゲーム対応",
@@ -743,6 +754,7 @@
             siteDesc: "Distributing scripts created by inei.",
             titleKyojin: "Age of Titans (Godzilla Game) Script",
             titleZoshoku: "Duplication Item Script",
+            titleStealEggHop: "steal egg hop",
             btnDl: "Download",
             btnRaw: "RAW View",
             badgeAll: "All Games Supported",
@@ -777,6 +789,7 @@
         document.getElementById('site-desc').textContent = t.siteDesc;
         document.getElementById('title-kyojin').textContent = t.titleKyojin;
         document.getElementById('title-zoshoku').textContent = t.titleZoshoku;
+        document.getElementById('title-steal-egg-hop').textContent = t.titleStealEggHop;
         document.getElementById('badge-all-text').textContent = t.badgeAll;
         document.getElementById('terms-open-btn').textContent = t.termsBtn;
         document.getElementById('terms-modal-title').textContent = t.termsTitle;
@@ -854,6 +867,10 @@
         zoshoku: {
             filename: '増殖アイテム.lua',
             content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/inei49984-ai/poopzous/refs/heads/main/unchikhub.lua"))()'
+        },
+        steal_egg_hop: {
+            filename: 'steal egg hop.lua',
+            content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/inei49984-ai/egg_hop-workd/refs/heads/main/HOp%2Cluau"))()'
         }
     };
 
